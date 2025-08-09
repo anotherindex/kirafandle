@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-100 font-sans">
-    <div class="container mx-auto p-6 bg-white rounded-xl shadow-lg my-8 max-w-6xl">
+    <div class="container mx-auto p-6 bg-white rounded-xl shadow-lg my-8 max-w-7xl">
         <header class="text-center mb-6">
             <h1 class="text-3xl font-bold text-gray-800"></h1><img class="header-image" src="https://i.imgur.com/8BKuTho.png" alt="Kirara Fantasia Character Guesser">
             <p class="text-gray-600 mt-2">Try to guess the Kirara Fantasia character!</p>
@@ -295,7 +295,7 @@
 			{"Name":"Sonobe","Element":["Wind","Sun"],"Class":["Warrior","Knight"],"Rarity":[5],"Event":["Gudetama","Easter"],"Series":"Sansha Sanyou","Release Year":2020,"Number of Cards":2},
 			{"Name":"Kondou","Element":["Wind"],"Class":["Alchemist"],"Rarity":[4],"Event":["Maid"],"Series":"Sansha Sanyou","Release Year":2021,"Number of Cards":1},
 			{"Name":"Hayama Kou","Element":["Fire","Wind"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["Tanabata"],"Series":"Sansha Sanyou","Release Year":2022,"Number of Cards":2},
-			{"Name":"Kuro","Element":["Earth","Moon"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Halloween"],"Series":"Hitsugi Katsugi no Kuro ~Kaichuu Tabi no Wa~","Release Year":2019,"Number of Cards":3},
+			{"Name":"Kuro","Element":["Earth","Moon"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Halloween"],"Series":"Hitsugi Katsugi no Kuro","Release Year":2019,"Number of Cards":3},
 			{"Name":"Yoshida Yuuko","Element":["Sun","Moon"],"Class":["Warrior","Priest"],"Rarity":[4,5],"Event":["Sports Festival"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":3},
 			{"Name":"Chiyoda Momo","Element":["Sun","Moon"],"Class":["Warrior","Mage"],"Rarity":[4,5],"Event":["Christmas"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":3},
 			{"Name":"Lilith","Element":["Earth","Moon"],"Class":["Mage"],"Rarity":[4,5],"Event":["Part 2"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":2},
@@ -481,7 +481,7 @@
             });
             if (allMatch) {
                 row.querySelectorAll('td').forEach(td => td.classList.add('status-correct'));
-                endGame('Correct! You found the secret character.', false);
+                endGame('Congratulations! You found the Correct Kirara Fantasia character.', false);
             }
             tbody.insertBefore(row, tbody.firstChild);
         }
@@ -523,7 +523,7 @@
             input.value = '';
 
             if (guessesLeft === 0 && !document.querySelector('.status-correct')) {
-                endGame('Out of guesses. The secret was: ' + secret.Name, true);
+                endGame('Out of guesses. The Kirara Fantasia character you were looking for was: ' + secret.Name, true);
             }
         }
 

@@ -1,0 +1,225 @@
+/*
+  This is a basic stylesheet for the character guessing game.
+  Feel free to modify and expand upon it to customize the game's appearance.
+*/
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('https://i.imgur.com/4I13WGb.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.container {
+    max-width: 1152px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #1a202c;
+    margin-bottom: 8px;
+
+}
+
+.header-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.subtitle {
+    color: #4a5568;
+    font-size: 1rem;
+}
+
+.game-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.input-group {
+    flex-grow: 1;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+#guessButton {
+    background-color: #4299e1;
+}
+
+#guessButton:hover {
+    background-color: #3182ce;
+}
+
+#playAgainBtn {
+    background-color: #48bb78;
+}
+
+#playAgainBtn:hover {
+    background-color: #38a169;
+}
+
+select {
+    padding: 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.status-message {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.status-message.error {
+    color: #e53e3e;
+}
+
+.status-message.success {
+    color: #38a169;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+}
+
+#gems {
+    display: flex;
+    gap: 4px;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.game-table-container {
+    overflow-x: auto;
+    margin-top: 24px;
+}
+
+#gameTable {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#gameTable th,
+#gameTable td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    border-right: 1px solid #e2e8f0;
+}
+
+#gameTable thead th {
+    background-color: #f7fafc;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #4a5568;
+}
+
+#gameTable tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Custom column widths */
+#gameTable th:nth-child(2),
+#gameTable td:nth-child(2) {
+    min-width: 200px;
+}
+
+#gameTable th:nth-child(3),
+#gameTable td:nth-child(3) {
+    min-width: 170px;
+}
+
+/* Allow line breaks in the 'Event' column */
+#gameTable td:nth-child(5) {
+    white-space: normal;
+}
+
+.status-match {
+    background-color: #dff7df;
+}
+
+.status-partial {
+    background-color: #fff1d9;
+}
+
+.status-no-match {
+    background-color: #fbe0e0;
+}
+
+.status-correct {
+    background-color: #38a169;
+    color: white;
+    font-weight: bold;
+}
+
+.legend-container {
+    margin-top: 24px;
+    padding: 16px;
+    background-color: #f7fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.875rem;
+    color: #4a5568;
+}
+
+.legend-color-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.legend-item .bg-green-200 { background-color: #dff7df; border: 1px solid #38a169; }
+.legend-item .bg-yellow-100 { background-color: #fff1d9; border: 1px solid #dd6b20; }
+.legend-item .bg-red-100 { background-color: #fbe0e0; border: 1px solid #e53e3e; }

@@ -36,7 +36,11 @@
 
             <!-- Guesses left and Difficulty row -->
             <div class="flex justify-between items-center">
-                <div class="flex items-center text-gray-700">
+                <!-- HINT BUTTON ADDED HERE -->
+                <div class="flex items-center text-gray-700 gap-4">
+                    <button id="hintButton" type="button" class="hidden bg-yellow-400 text-white font-bold py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors whitespace-nowrap">
+                        Hint
+                    </button>
                     <p>Guesses left: <span id="guessesLeft" class="font-bold"></span></p>
                     <div id="gems" class="ml-2 flex items-center"></div>
                 </div>
@@ -86,7 +90,7 @@
                 </div>
                 <div class="flex items-center gap-2">
                     <div class="w-4 h-4 bg-yellow-100 border border-yellow-500 rounded-sm"></div>
-                    <span class="text-sm text-gray-600">Partial Match (some attributes are correct)</span>
+                    <span class="text-sm text-gray-600">Partial Match</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <div class="w-4 h-4 bg-red-100 border border-red-500 rounded-sm"></div>
@@ -102,11 +106,23 @@
             </div>
         </div>
     </div>
+
+    <!-- HINT CONFIRMATION MODAL -->
+    <div id="hintModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-xl text-center max-w-sm mx-auto">
+            <p class="mb-4 text-lg font-medium text-gray-800">Do you want to exchange 1 guess for a hint?</p>
+            <div class="flex justify-center gap-4">
+                <button id="confirmHintBtn" class="bg-green-500 text-white font-bold py-2 px-6 rounded-md hover:bg-green-600 transition-colors">Yes</button>
+                <button id="cancelHintBtn" class="bg-red-500 text-white font-bold py-2 px-6 rounded-md hover:bg-red-600 transition-colors">No</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const elementIcons = { Earth: 'https://i.imgur.com/dMwryhL.png', Fire: 'https://i.imgur.com/5jAQHdb.png', Water: 'https://i.imgur.com/Dm03NMi.png', Wind: 'https://i.imgur.com/KSziZNg.png', Sun: 'https://i.imgur.com/QUNUzXb.png', Moon: 'https://i.imgur.com/n4bUo8h.png' };
         const classIcons = { Alchemist: 'https://i.imgur.com/M6QwBVL.png', Warrior: 'https://i.imgur.com/8jlTelp.png', Knight: 'https://i.imgur.com/IukPY4D.png', Mage: 'https://i.imgur.com/iPnkGXP.png', Priest: 'https://i.imgur.com/r2cEJih.png' };
         const gemIcon = 'https://i.imgur.com/n0199U5.png';
-        const initialData = [/* same as before */
+        const initialData = [
 			{"Name":"Yuno","Element":["Water","Wind","Sun"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","Swimsuit"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":6},
 			{"Name":"Miyako","Element":["Fire","Earth","Sun","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[3,4,5],"Event":["Christmas"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":5},
 			{"Name":"Hiro","Element":["Fire","Wind","Sun"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":4},
@@ -295,7 +311,7 @@
 			{"Name":"Sonobe","Element":["Wind","Sun"],"Class":["Warrior","Knight"],"Rarity":[5],"Event":["Gudetama","Easter"],"Series":"Sansha Sanyou","Release Year":2020,"Number of Cards":2},
 			{"Name":"Kondou","Element":["Wind"],"Class":["Alchemist"],"Rarity":[4],"Event":["Maid"],"Series":"Sansha Sanyou","Release Year":2021,"Number of Cards":1},
 			{"Name":"Hayama Kou","Element":["Fire","Wind"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["Tanabata"],"Series":"Sansha Sanyou","Release Year":2022,"Number of Cards":2},
-			{"Name":"Kuro","Element":["Earth","Moon"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Halloween"],"Series":"Hitsugi Katsugi no Kuro","Release Year":2019,"Number of Cards":3},
+			{"Name":"Kuro","Element":["Earth","Moon"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Halloween"],"Series":"Hitsugi Katsugi no Kuro ~Kaichuu Tabi no Wa~","Release Year":2019,"Number of Cards":3},
 			{"Name":"Yoshida Yuuko","Element":["Sun","Moon"],"Class":["Warrior","Priest"],"Rarity":[4,5],"Event":["Sports Festival"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":3},
 			{"Name":"Chiyoda Momo","Element":["Sun","Moon"],"Class":["Warrior","Mage"],"Rarity":[4,5],"Event":["Christmas"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":3},
 			{"Name":"Lilith","Element":["Earth","Moon"],"Class":["Mage"],"Rarity":[4,5],"Event":["Part 2"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":2},
@@ -328,9 +344,8 @@
 			{"Name":"Katase Mayoi ","Element":["Earth","Moon"],"Class":["Mage"],"Rarity":[4,5],"Event":["None"],"Series":"Acchi Kocchi","Release Year":2020,"Number of Cards":2},
 			{"Name":"Sakuragawa Kikue","Element":["Wind"],"Class":["Knight"],"Rarity":[4],"Event":["Easter"],"Series":"Acchi Kocchi","Release Year":2021,"Number of Cards":1},
 			{"Name":"Shinohana Mayu","Element":["Water","Earth"],"Class":["Knight","Alchemist"],"Rarity":[4,5],"Event":["None"],"Series":"Power of Smile.","Release Year":2022,"Number of Cards":2},
-			{"Name":"Kodou Tamaki","Element":["Fire"],"Class":["Warrior"],"Rarity":[4],"Event":["None"],"Series":"Power of Smile.","Release Year":2020,"Number of Cards":2},
+			{"Name":"Kodou Tamaki","Element":["Water","Fire"],"Class":["Warrior"],"Rarity":[4,5],"Event":["Easter"],"Series":"Power of Smile.","Release Year":2020,"Number of Cards":2},
 			{"Name":"Souenji Miku","Element":["Fire"],"Class":["Priest"],"Rarity":[5],"Event":["None"],"Series":"Power of Smile.","Release Year":2021,"Number of Cards":1},
-			{"Name":"Kodou Tamaki","Element":["Water"],"Class":["Warrior"],"Rarity":[5],"Event":["None"],"Series":"Power of Smile.","Release Year":2022,"Number of Cards":2},
 			{"Name":"Onosaka Koharu","Element":["Water","Moon"],"Class":["Knight","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Koharu Biyori","Release Year":2021,"Number of Cards":2},
 			{"Name":"Tachibana Nina","Element":["Water","Moon"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Koharu Biyori","Release Year":2020,"Number of Cards":2},
 			{"Name":"Kitazawa Misaki","Element":["Fire"],"Class":["Mage"],"Rarity":[4],"Event":["None"],"Series":"Koharu Biyori","Release Year":2021,"Number of Cards":1},
@@ -359,6 +374,9 @@
         let data = initialData.slice();
         let secret = null;
         let guessesLeft = 10;
+        let hintUsed = false; // NEW: Tracks if a hint has been used this game
+        // The order in which hints will be revealed
+        const hintPriority = ['Element', 'Class', 'Event', 'Series', 'Release Year', 'Number of Cards', 'Rarity'];
 
         function setStatus(msg, isError = true) {
             const s = document.getElementById('status');
@@ -369,7 +387,7 @@
         function populateDatalist(filter = '') {
             const dl = document.getElementById('namesList');
             dl.innerHTML = '';
-            if (filter.length < 3) return;
+            if (filter.length < 2) return;
             data.filter(c => c.Name.toLowerCase().includes(filter.toLowerCase())).forEach(c => {
                 const opt = document.createElement('option');
                 opt.value = c.Name;
@@ -386,7 +404,10 @@
             console.log('Secret (debug):', secret.Name);
         }
 
-        function updateGems() {
+        // This function now updates the guess count, gems, and hint button visibility all at once.
+        function updateGuessesUI() {
+            document.getElementById('guessesLeft').textContent = guessesLeft;
+            
             const gemsContainer = document.getElementById('gems');
             gemsContainer.innerHTML = '';
             for (let i = 0; i < guessesLeft; i++) {
@@ -396,16 +417,25 @@
                 img.alt = 'Gem';
                 gemsContainer.appendChild(img);
             }
+
+            const hintButton = document.getElementById('hintButton');
+            // MODIFIED: Also checks if hint has been used
+            if (guessesLeft < 5 && guessesLeft > 1 && !hintUsed) {
+                hintButton.style.display = 'block';
+            } else {
+                hintButton.style.display = 'none';
+            }
         }
 
         function resetGame() {
             guessesLeft = parseInt(document.getElementById('difficulty').value, 10);
-            document.getElementById('guessesLeft').textContent = guessesLeft;
-            updateGems();
+            hintUsed = false; // NEW: Reset hint status on new game
+            updateGuessesUI();
             document.querySelector('#gameTable tbody').innerHTML = '';
             document.getElementById('guessInput').disabled = false;
             document.getElementById('guessButton').disabled = false;
             document.getElementById('playAgainBtn').style.display = 'none';
+            document.getElementById('hintModal').classList.add('hidden');
             setStatus('');
             pickSecret();
         }
@@ -413,7 +443,7 @@
         function compareValues(guessVal, secretVal) {
             const gArr = Array.isArray(guessVal) ? guessVal : [guessVal];
             const sArr = Array.isArray(secretVal) ? secretVal : [secretVal];
-            if (JSON.stringify(gArr) === JSON.stringify(sArr)) return 'match';
+            if (JSON.stringify(gArr.sort()) === JSON.stringify(sArr.sort())) return 'match';
             if (gArr.some(g => sArr.map(s => String(s).toLowerCase()).includes(String(g).toLowerCase()))) return 'partial';
             return 'no-match';
         }
@@ -458,7 +488,7 @@
                 const cell = document.createElement('td');
                 const gVal = guess[key];
                 const sVal = secret[key];
-                const status = compareValues(gVal, sVal);
+                const status = (key === 'Name') ? (gVal === sVal ? 'match' : 'no-match') : compareValues(gVal, sVal);
 
                 if (status !== 'match') {
                     allMatch = false;
@@ -480,10 +510,81 @@
                 row.appendChild(cell);
             });
             if (allMatch) {
-                row.querySelectorAll('td').forEach(td => td.classList.add('status-correct'));
+                row.querySelectorAll('td').forEach(td => td.className = `px-4 py-3 whitespace-nowrap text-sm text-gray-900 status-match`);
+                row.classList.add('status-correct');
                 endGame('Congratulations! You found the Correct Kirara Fantasia character.', false);
             }
             tbody.insertBefore(row, tbody.firstChild);
+        }
+
+        function addHintRow(hintProperty) {
+            const tbody = document.querySelector('#gameTable tbody');
+            const row = document.createElement('tr');
+            const keys = ['Name', 'Element', 'Class', 'Rarity', 'Event', 'Series', 'Release Year', 'Number of Cards'];
+
+            keys.forEach(key => {
+                const cell = document.createElement('td');
+                cell.className = 'px-4 py-3 whitespace-nowrap text-sm text-gray-900';
+
+                if (key === 'Name') {
+                    cell.textContent = 'Hint';
+                    cell.classList.add('font-bold', 'text-yellow-600');
+                } else if (key === hintProperty) {
+                    const sVal = secret[key];
+                    if (key === 'Element') {
+                        cell.appendChild(createIcons(sVal, elementIcons));
+                    } else if (key === 'Class') {
+                        cell.appendChild(createIcons(sVal, classIcons));
+                    } else if (key === 'Rarity') {
+                        cell.textContent = formatRarity(sVal);
+                    } else {
+                        cell.textContent = Array.isArray(sVal) ? sVal.join(', ') : sVal;
+                    }
+                    cell.classList.add('status-match');
+                } else {
+                    cell.classList.add('bg-gray-100');
+                }
+                row.appendChild(cell);
+            });
+            tbody.insertBefore(row, tbody.firstChild);
+        }
+
+        function provideHint() {
+            guessesLeft--;
+            hintUsed = true; 
+            updateGuessesUI();
+
+            const revealedProperties = new Set();
+            const tableRows = document.querySelectorAll('#gameTable tbody tr');
+            const tableKeys = ['Name', 'Element', 'Class', 'Rarity', 'Event', 'Series', 'Release Year', 'Number of Cards'];
+
+            tableRows.forEach(row => {
+                if (row.cells[0].textContent === 'Hint') return;
+
+                row.querySelectorAll('td').forEach((cell, index) => {
+                    const key = tableKeys[index];
+                    if (cell.classList.contains('status-match')) {
+                        revealedProperties.add(key);
+                    }
+                });
+            });
+
+            const hintToGive = hintPriority.find(prop => !revealedProperties.has(prop));
+
+            if (hintToGive) {
+                addHintRow(hintToGive);
+            } else {
+                setStatus('No more hints available!', false);
+                guessesLeft++; 
+                hintUsed = false; 
+                updateGuessesUI();
+            }
+
+            document.getElementById('hintModal').classList.add('hidden');
+
+            if (guessesLeft === 0 && !document.querySelector('.status-correct')) {
+                endGame('Out of guesses. The Kirara Fantasia character you were looking for was: ' + secret.Name, true);
+            }
         }
 
         function endGame(message, isError = true) {
@@ -491,6 +592,7 @@
             document.getElementById('guessInput').disabled = true;
             document.getElementById('guessButton').disabled = true;
             document.getElementById('playAgainBtn').style.display = 'block';
+            document.getElementById('hintButton').style.display = 'none';
         }
 
         function handleGuess() {
@@ -518,8 +620,7 @@
 
             addGuessRow(guess);
             guessesLeft--;
-            document.getElementById('guessesLeft').textContent = guessesLeft;
-            updateGems();
+            updateGuessesUI();
             input.value = '';
 
             if (guessesLeft === 0 && !document.querySelector('.status-correct')) {
@@ -527,6 +628,7 @@
             }
         }
 
+        // --- Event Listeners ---
         document.getElementById('guessButton').addEventListener('click', handleGuess);
         document.getElementById('guessInput').addEventListener('keydown', e => {
             if (e.key === 'Enter') {
@@ -545,12 +647,19 @@
             resetGame();
         });
 
+        document.getElementById('hintButton').addEventListener('click', () => {
+            document.getElementById('hintModal').classList.remove('hidden');
+        });
+        document.getElementById('cancelHintBtn').addEventListener('click', () => {
+            document.getElementById('hintModal').classList.add('hidden');
+        });
+        document.getElementById('confirmHintBtn').addEventListener('click', provideHint);
+
+        // --- Initial Game Setup ---
         const savedDiff = localStorage.getItem('difficulty');
         if (savedDiff) {
             document.getElementById('difficulty').value = savedDiff;
         }
-
-        populateDatalist('');
         resetGame();
     </script>
 </body>

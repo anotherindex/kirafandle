@@ -220,6 +220,10 @@ select {
     border-radius: 4px;
 }
 
+.flex.items-center.mt-2.mb-2 {
+    margin-top: -20px;
+}
+
 .legend-item .bg-green-200 { background-color: #dff7df; border: 1px solid #38a169; }
 .legend-item .bg-yellow-100 { background-color: #fff1d9; border: 1px solid #dd6b20; }
 .legend-item .bg-red-100 { background-color: #fbe0e0; border: 1px solid #e53e3e; }

@@ -29,6 +29,12 @@
                 </div>
             </div>
             
+            <!-- NEW: Checkbox for series name in autocomplete -->
+            <div class="flex items-center mt-2 mb-2">
+                <input type="checkbox" id="showSeriesCheckbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                <label for="showSeriesCheckbox" class="ml-2 block text-sm text-gray-900">Show series name in auto-complete.</label>
+            </div>
+
             <!-- Status message row -->
             <div class="mb-4">
                 <div id="status" role="status" aria-live="polite" class="text-red-600 font-medium"></div>
@@ -374,8 +380,7 @@
         let data = initialData.slice();
         let secret = null;
         let guessesLeft = 10;
-        let hintUsed = false; // NEW: Tracks if a hint has been used this game
-        // The order in which hints will be revealed
+        let hintUsed = false; 
         const hintPriority = ['Element', 'Class', 'Event', 'Series', 'Release Year', 'Number of Cards', 'Rarity'];
 
         function setStatus(msg, isError = true) {
@@ -384,14 +389,20 @@
             s.className = isError ? 'text-red-600 font-medium' : 'text-green-600 font-medium';
         }
 
+        // MODIFIED: Now handles showing series name in autocomplete
         function populateDatalist(filter = '') {
             const dl = document.getElementById('namesList');
+            const showSeries = document.getElementById('showSeriesCheckbox').checked;
             dl.innerHTML = '';
             if (filter.length < 2) return;
-            data.filter(c => c.Name.toLowerCase().includes(filter.toLowerCase())).forEach(c => {
-                const opt = document.createElement('option');
-                opt.value = c.Name;
-                dl.appendChild(opt);
+
+            data.forEach(c => {
+                const displayName = showSeries ? `${c.Name} (${c.Series})` : c.Name;
+                if (displayName.toLowerCase().includes(filter.toLowerCase())) {
+                    const opt = document.createElement('option');
+                    opt.value = displayName;
+                    dl.appendChild(opt);
+                }
             });
         }
 
@@ -404,7 +415,6 @@
             console.log('Secret (debug):', secret.Name);
         }
 
-        // This function now updates the guess count, gems, and hint button visibility all at once.
         function updateGuessesUI() {
             document.getElementById('guessesLeft').textContent = guessesLeft;
             
@@ -419,7 +429,6 @@
             }
 
             const hintButton = document.getElementById('hintButton');
-            // MODIFIED: Also checks if hint has been used
             if (guessesLeft < 5 && guessesLeft > 1 && !hintUsed) {
                 hintButton.style.display = 'block';
             } else {
@@ -429,7 +438,7 @@
 
         function resetGame() {
             guessesLeft = parseInt(document.getElementById('difficulty').value, 10);
-            hintUsed = false; // NEW: Reset hint status on new game
+            hintUsed = false; 
             updateGuessesUI();
             document.querySelector('#gameTable tbody').innerHTML = '';
             document.getElementById('guessInput').disabled = false;
@@ -595,6 +604,7 @@
             document.getElementById('hintButton').style.display = 'none';
         }
 
+        // MODIFIED: Now handles parsing the name from the input field
         function handleGuess() {
             setStatus('');
             if (guessesLeft <= 0) {
@@ -608,8 +618,13 @@
             }
 
             const input = document.getElementById('guessInput');
-            const name = input.value.trim();
+            let name = input.value.trim();
             if (!name) return;
+
+            // If the name includes the series in parentheses, extract just the name
+            if (name.includes(' (')) {
+                name = name.substring(0, name.lastIndexOf(' ('));
+            }
 
             const guess = data.find(c => c.Name.toLowerCase() === name.toLowerCase());
             if (!guess) {
@@ -622,6 +637,7 @@
             guessesLeft--;
             updateGuessesUI();
             input.value = '';
+            populateDatalist(''); // Clear datalist after guess
 
             if (guessesLeft === 0 && !document.querySelector('.status-correct')) {
                 endGame('Out of guesses. The Kirara Fantasia character you were looking for was: ' + secret.Name, true);
@@ -654,6 +670,12 @@
             document.getElementById('hintModal').classList.add('hidden');
         });
         document.getElementById('confirmHintBtn').addEventListener('click', provideHint);
+
+        // NEW: Event listener for the checkbox
+        document.getElementById('showSeriesCheckbox').addEventListener('change', () => {
+             // Repopulate the datalist when the checkbox is toggled
+            populateDatalist(document.getElementById('guessInput').value);
+        });
 
         // --- Initial Game Setup ---
         const savedDiff = localStorage.getItem('difficulty');

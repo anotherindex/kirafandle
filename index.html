@@ -13,6 +13,14 @@
         <header class="text-center mb-6">
             <h1 class="text-3xl font-bold text-gray-800"></h1><img class="header-image" src="https://i.imgur.com/8BKuTho.png" alt="Kirara Fantasia Character Guesser">
             <p class="text-gray-600 mt-2">Try to guess the Kirara Fantasia character!</p>
+            
+            <!-- NEW: Container for the daily message -->
+            <div id="dailyMessageContainer" style="display: none;" class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p id="dailyMessageText" class="text-blue-800"></p>
+                <p class="text-sm text-gray-600 mt-2">
+                    (You can also try the <a id="randomLink" href="#" class="text-blue-600 hover:underline">fully random version</a>.)
+                </p>
+            </div>
         </header>
 
         <div class="game-controls p-4 border-b border-gray-200 mb-6">
@@ -29,20 +37,16 @@
                 </div>
             </div>
             
-            <!-- NEW: Checkbox for series name in autocomplete -->
             <div class="flex items-center mt-2 mb-2">
                 <input type="checkbox" id="showSeriesCheckbox" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
-                <label for="showSeriesCheckbox" class="ml-2 block text-sm text-gray-900">Show series name in auto-complete suggestions.</label>
+                <label for="showSeriesCheckbox" class="ml-2 block text-sm text-gray-900">Show series name in auto-complete.</label>
             </div>
 
-            <!-- Status message row -->
             <div class="mb-4">
                 <div id="status" role="status" aria-live="polite" class="text-red-600 font-medium"></div>
             </div>
 
-            <!-- Guesses left and Difficulty row -->
             <div class="flex justify-between items-center">
-                <!-- HINT BUTTON ADDED HERE -->
                 <div class="flex items-center text-gray-700 gap-4">
                     <button id="hintButton" type="button" class="hidden bg-yellow-400 text-white font-bold py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors whitespace-nowrap">
                         Hint
@@ -82,7 +86,6 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <!-- Guess rows will be added here -->
                 </tbody>
             </table>
         </div>
@@ -113,7 +116,6 @@
         </div>
     </div>
 
-    <!-- HINT CONFIRMATION MODAL -->
     <div id="hintModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex items-center justify-center">
         <div class="bg-white p-6 rounded-lg shadow-xl text-center max-w-sm mx-auto">
             <p class="mb-4 text-lg font-medium text-gray-800">Do you want to exchange 1 guess for a hint?</p>
@@ -389,7 +391,6 @@
             s.className = isError ? 'text-red-600 font-medium' : 'text-green-600 font-medium';
         }
 
-        // MODIFIED: Now handles showing series name in autocomplete
         function populateDatalist(filter = '') {
             const dl = document.getElementById('namesList');
             const showSeries = document.getElementById('showSeriesCheckbox').checked;
@@ -406,12 +407,21 @@
             });
         }
 
-        function pickSecret() {
+        // MODIFIED: Now handles picking a specific character for daily mode
+        function pickSecret(dailyIndex = null) {
             if (data.length === 0) {
                 setStatus('No characters loaded!', true);
                 return;
             }
-            secret = data[Math.floor(Math.random() * data.length)];
+
+            if (dailyIndex !== null && dailyIndex >= 0 && dailyIndex < data.length) {
+                secret = data[dailyIndex];
+            } else {
+                if (dailyIndex !== null) {
+                    console.warn(`Daily character index ${dailyIndex} is out of bounds. Picking a random character.`);
+                }
+                secret = data[Math.floor(Math.random() * data.length)];
+            }
             console.log('Secret (debug):', secret.Name);
         }
 
@@ -436,7 +446,8 @@
             }
         }
 
-        function resetGame() {
+        // MODIFIED: Now accepts a character index for daily mode
+        function resetGame(dailyIndex = null) {
             guessesLeft = parseInt(document.getElementById('difficulty').value, 10);
             hintUsed = false; 
             updateGuessesUI();
@@ -446,7 +457,7 @@
             document.getElementById('playAgainBtn').style.display = 'none';
             document.getElementById('hintModal').classList.add('hidden');
             setStatus('');
-            pickSecret();
+            pickSecret(dailyIndex);
         }
 
         function compareValues(guessVal, secretVal) {
@@ -604,7 +615,6 @@
             document.getElementById('hintButton').style.display = 'none';
         }
 
-        // MODIFIED: Now handles parsing the name from the input field
         function handleGuess() {
             setStatus('');
             if (guessesLeft <= 0) {
@@ -621,7 +631,6 @@
             let name = input.value.trim();
             if (!name) return;
 
-            // If the name includes the series in parentheses, extract just the name
             if (name.includes(' (')) {
                 name = name.substring(0, name.lastIndexOf(' ('));
             }
@@ -637,10 +646,61 @@
             guessesLeft--;
             updateGuessesUI();
             input.value = '';
-            populateDatalist(''); // Clear datalist after guess
+            populateDatalist(''); 
 
             if (guessesLeft === 0 && !document.querySelector('.status-correct')) {
                 endGame('Out of guesses. The Kirara Fantasia character you were looking for was: ' + secret.Name, true);
+            }
+        }
+        
+        // NEW: Calculates a simple checksum
+        function calculateChecksum(id, message) {
+            const str = id + message;
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash |= 0; // Convert to 32bit integer
+            }
+            return hash.toString();
+        }
+
+        // NEW: Initializes the game, checking for daily mode
+        function initGameMode() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const dailyData = urlParams.get('daily');
+
+            if (dailyData) {
+                try {
+                    const decodedString = atob(dailyData);
+                    const [id, message, checksum] = JSON.parse(decodedString);
+
+                    if (calculateChecksum(id, message) !== checksum) {
+                        console.error("Checksum mismatch. Falling back to random mode.");
+                        resetGame();
+                        return;
+                    }
+
+                    const characterIndex = parseInt(id, 10) - 1; // Use 1-based index from URL
+                    if (isNaN(characterIndex)) {
+                        console.error("Invalid character ID. Falling back to random mode.");
+                        resetGame();
+                        return;
+                    }
+
+                    const dailyMessageContainer = document.getElementById('dailyMessageContainer');
+                    document.getElementById('dailyMessageText').textContent = message;
+                    document.getElementById('randomLink').href =  "https://anotherindex.github.io/kirafandle/";
+                    dailyMessageContainer.style.display = 'block';
+
+                    resetGame(characterIndex);
+
+                } catch (error) {
+                    console.error("Failed to parse daily data. Falling back to random mode.", error);
+                    resetGame();
+                }
+            } else {
+                resetGame();
             }
         }
 
@@ -657,10 +717,11 @@
         });
         document.getElementById('difficulty').addEventListener('change', () => {
             localStorage.setItem('difficulty', document.getElementById('difficulty').value);
-            resetGame();
+            // Re-initialize game to respect daily mode if it exists
+            initGameMode();
         });
         document.getElementById('playAgainBtn').addEventListener('click', () => {
-            resetGame();
+            initGameMode();
         });
 
         document.getElementById('hintButton').addEventListener('click', () => {
@@ -671,9 +732,7 @@
         });
         document.getElementById('confirmHintBtn').addEventListener('click', provideHint);
 
-        // NEW: Event listener for the checkbox
         document.getElementById('showSeriesCheckbox').addEventListener('change', () => {
-             // Repopulate the datalist when the checkbox is toggled
             populateDatalist(document.getElementById('guessInput').value);
         });
 
@@ -682,7 +741,8 @@
         if (savedDiff) {
             document.getElementById('difficulty').value = savedDiff;
         }
-        resetGame();
+        // MODIFIED: Start the game by checking the mode
+        initGameMode();
     </script>
 </body>
 </html>

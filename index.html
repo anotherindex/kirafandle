@@ -67,7 +67,6 @@
                 class="hidden mt-4 w-full bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-green-600 transition-colors">
                 Play Again
             </button>
-            <!-- NEW: Share score button for daily mode -->
             <button id="shareScoreBtn"
                 class="hidden mt-4 w-full bg-purple-500 text-white font-bold py-2 px-4 rounded-md hover:bg-purple-600 transition-colors">
                 Share Your Score
@@ -129,12 +128,11 @@
         </div>
     </div>
 
-    <!-- NEW: Share Score Modal -->
     <div id="shareModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex items-center justify-center">
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-md mx-auto relative">
             <button id="closeShareModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Share Your Score</h3>
-            <textarea id="shareScoreText" readonly class="w-full h-24 p-2 border border-gray-300 rounded-md resize-none bg-gray-50"></textarea>
+            <textarea id="shareScoreText" readonly class="w-full p-2 border border-gray-300 rounded-md bg-gray-50 min-h-[16rem]"></textarea>
             <button id="copyScoreBtn" class="mt-4 w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">Copy to Clipboard</button>
         </div>
     </div>
@@ -145,251 +143,251 @@
         const gemIcon = 'https://i.imgur.com/n0199U5.png';
         const initialData = [
 			{"Name":"Yuno","Element":["Water","Wind","Sun"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","Swimsuit"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":6},
-{"Name":"Miyako","Element":["Fire","Earth","Sun","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[3,4,5],"Event":["Christmas"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":5},
-{"Name":"Hiro","Element":["Fire","Wind","Sun"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":4},
-{"Name":"Sae","Element":["Water","Earth","Sun"],"Class":["Warrior","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["White Day"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":3},
-{"Name":"Nori","Element":["Water","Wind"],"Class":["Knight"],"Rarity":[3,4],"Event":["None"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":2},
-{"Name":"Nazuna","Element":["Earth","Sun","Moon"],"Class":["Warrior","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":3},
-{"Name":"Nonohara Yuzuko","Element":["Water","Fire","Wind","Earth"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["New Year","Swimsuit","Halloween"],"Series":"Yuyushiki","Release Year":2017,"Number of Cards":7},
-{"Name":"Ichii Yui","Element":["Water","Fire","Wind","Earth","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Hinamatsuri","Swimsuit"],"Series":"Yuyushiki","Release Year":2017,"Number of Cards":8},
-{"Name":"Hinata Yukari","Element":["Water","Fire","Wind","Earth","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","New Year"],"Series":"Yuyushiki","Release Year":2017,"Number of Cards":6},
-{"Name":"Matsumoto Yoriko","Element":["Fire","Earth","Sun","Moon"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Maid"],"Series":"Yuyushiki","Release Year":2017,"Number of Cards":4},
-{"Name":"Aikawa Chiho","Element":["Wind","Earth","Sun"],"Class":["Priest","Knight"],"Rarity":[3,4,5],"Event":["Hot Springs"],"Series":"Yuyushiki","Release Year":2017,"Number of Cards":4},
-{"Name":"Okano Kei","Element":["Fire"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Yuyushiki","Release Year":2018,"Number of Cards":1},
-{"Name":"Hasegawa Fumi","Element":["Fire","Earth"],"Class":["Mage"],"Rarity":[4,5],"Event":["None"],"Series":"Yuyushiki","Release Year":2018,"Number of Cards":2},
-{"Name":"Takeya Yuki","Element":["Water","Fire","Wind","Earth"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"Gakkou Gurashi","Release Year":2017,"Number of Cards":6},
-{"Name":"Ebisuzawa Kurumi","Element":["Wind","Earth","Sun","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[3,4,5],"Event":["Swimsuit","Christmas"],"Series":"Gakkou Gurashi","Release Year":2017,"Number of Cards":6},
-{"Name":"Wakasa Yuuri","Element":["Water","Fire","Wind","Earth","Moon"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["New Year","Hot Springs"],"Series":"Gakkou Gurashi","Release Year":2017,"Number of Cards":6},
-{"Name":"Naoki Miki","Element":["Fire","Wind","Earth","Moon"],"Class":["Warrior","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Halloween"],"Series":"Gakkou Gurashi","Release Year":2017,"Number of Cards":5},
-{"Name":"Sakura Megumi","Element":["Water","Fire","Wind"],"Class":["Warrior","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"Gakkou Gurashi","Release Year":2017,"Number of Cards":4},
-{"Name":"Shidou Kei","Element":["Wind"],"Class":["Mage"],"Rarity":[5],"Event":["None"],"Series":"Gakkou Gurashi","Release Year":2020,"Number of Cards":1},
-{"Name":"Yuki (Grown-up)","Element":["Sun"],"Class":["Knight"],"Rarity":[5],"Event":["Grown-up"],"Series":"Gakkou Gurashi","Release Year":2021,"Number of Cards":1},
-{"Name":"Kurumi (Grown-up)","Element":["Sun"],"Class":["Priest"],"Rarity":[5],"Event":["Grown-up"],"Series":"Gakkou Gurashi","Release Year":2022,"Number of Cards":1},
-{"Name":"Yuuri (Grown-up)","Element":["Sun"],"Class":["Alchemist"],"Rarity":[5],"Event":["Grown-up"],"Series":"Gakkou Gurashi","Release Year":2022,"Number of Cards":1},
-{"Name":"Miki (Grown-up)","Element":["Sun"],"Class":["Mage"],"Rarity":[5],"Event":["Grown-up"],"Series":"Gakkou Gurashi","Release Year":2021,"Number of Cards":1},
-{"Name":"Tooru","Element":["Water","Fire","Wind","Earth","Sun"],"Class":["Warrior","Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","Christmas","White Day"],"Series":"A-Channel","Release Year":2017,"Number of Cards":8},
-{"Name":"Run","Element":["Water","Fire","Wind","Earth","Sun"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","New Year","Valentine"],"Series":"A-Channel","Release Year":2017,"Number of Cards":7},
-{"Name":"Yuuko","Element":["Wind","Earth","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Christmas","Swimsuit"],"Series":"A-Channel","Release Year":2017,"Number of Cards":6},
-{"Name":"Nagi","Element":["Water","Fire","Wind","Earth","Moon"],"Class":["Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"A-Channel","Release Year":2017,"Number of Cards":5},
-{"Name":"Miho","Element":["Water"],"Class":["Warrior"],"Rarity":[4],"Event":["None"],"Series":"A-Channel","Release Year":2018,"Number of Cards":1},
-{"Name":"Yutaka","Element":["Water","Wind"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["Maid"],"Series":"A-Channel","Release Year":2019,"Number of Cards":2},
-{"Name":"Kitou Kimiko","Element":["Fire"],"Class":["Priest"],"Rarity":[4],"Event":["None"],"Series":"A-Channel","Release Year":2019,"Number of Cards":1},
-{"Name":"Kujou Karen","Element":["Fire","Wind","Earth","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","A Magician From Overseas","Sports Festival","Christmas"],"Series":"Kiniro Mosaic","Release Year":2017,"Number of Cards":8},
-{"Name":"Alice Cartelet","Element":["Water","Fire","Wind","Earth","Sun"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","New Year","Cinnamoroll"],"Series":"Kiniro Mosaic","Release Year":2017,"Number of Cards":8},
-{"Name":"Oomiya Shinobu","Element":["Water","Fire","Earth","Sun"],"Class":["Warrior","Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["New Year","Postman of Happiness"],"Series":"Kiniro Mosaic","Release Year":2017,"Number of Cards":6},
-{"Name":"Komichi Aya","Element":["Water","Wind","Sun","Moon"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine","Swimsuit","Christmas"],"Series":"Kiniro Mosaic","Release Year":2017,"Number of Cards":5},
-{"Name":"Inokuma Youko","Element":["Fire","Sun"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Sports Festival","Swimsuit","Hot Springs"],"Series":"Kiniro Mosaic","Release Year":2017,"Number of Cards":5},
-{"Name":"Matsubara Honoka","Element":["Water","Wind","Moon"],"Class":["Warrior","Priest"],"Rarity":[3,4,5],"Event":["None"],"Series":"Kiniro Mosaic","Release Year":2017,"Number of Cards":3},
-{"Name":"Oomiya Isami","Element":["Water","Fire"],"Class":["Priest","Alchemist"],"Rarity":[4,5],"Event":["New Year"],"Series":"Kiniro Mosaic","Release Year":2018,"Number of Cards":2},
-{"Name":"Karasuma Sakura","Element":["Wind","Earth"],"Class":["Warrior"],"Rarity":[4,5],"Event":["None"],"Series":"Kiniro Mosaic","Release Year":2018,"Number of Cards":2},
-{"Name":"Kuzehashi Akari","Element":["Wind"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Kiniro Mosaic","Release Year":2018,"Number of Cards":1},
-{"Name":"Kana Higurashi","Element":["Water"],"Class":["Mage"],"Rarity":[4],"Event":["None"],"Series":"Kiniro Mosaic","Release Year":2021,"Number of Cards":1},
-{"Name":"Suzukaze Aoba","Element":["Fire","Wind","Earth"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Sports Festival"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":7},
-{"Name":"Takimoto Hifumi","Element":["Water","Fire","Wind","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Christmas","Maid","Swimsuit"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":7},
-{"Name":"Shinoda Hajime","Element":["Water","Wind"],"Class":["Warrior","Knight"],"Rarity":[3,4,5],"Event":["Christmas"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":3},
-{"Name":"Iijima Yun","Element":["Fire","Earth","Moon"],"Class":["Warrior","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Hinamatsuri"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":3},
-{"Name":"Yagami Kou","Element":["Water","Fire","Wind","Earth","Sun"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","New Year"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":5},
-{"Name":"Tooyama Rin","Element":["Water","Fire","Moon"],"Class":["Priest","Alchemist"],"Rarity":[3,4,5],"Event":["None"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":3},
-{"Name":"Sakura Nene","Element":["Wind","Earth"],"Class":["Warrior"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"NEW GAME!","Release Year":2018,"Number of Cards":2},
-{"Name":"Ahagon Umiko","Element":["Water","Wind","Earth"],"Class":["Warrior"],"Rarity":[3,4,5],"Event":["None"],"Series":"NEW GAME!","Release Year":2018,"Number of Cards":3},
-{"Name":"Mochizuki Momiji","Element":["Water","Earth","Moon"],"Class":["Warrior","Mage","Priest"],"Rarity":[4,5],"Event":["New Year","Valentine"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":3},
-{"Name":"Narumi Tsubame","Element":["Water","Earth"],"Class":["Priest","Knight"],"Rarity":[4,5],"Event":["Valentine"],"Series":"NEW GAME!","Release Year":2018,"Number of Cards":2},
-{"Name":"Hazuki Shizuku","Element":["Fire"],"Class":["Alchemist"],"Rarity":[4],"Event":["None"],"Series":"NEW GAME!","Release Year":2019,"Number of Cards":1},
-{"Name":"Hoshikawa Hotaru","Element":["Water","Earth"],"Class":["Mage"],"Rarity":[4,5],"Event":["None"],"Series":"NEW GAME!","Release Year":2018,"Number of Cards":2},
-{"Name":"Honda Tamaki","Element":["Water","Fire","Wind","Earth","Sun"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","Sports Festival"],"Series":"Stella No Mahou","Release Year":2017,"Number of Cards":7},
-{"Name":"Fujikawa Kayo","Element":["Water","Fire","Wind","Moon"],"Class":["Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Easter"],"Series":"Stella No Mahou","Release Year":2017,"Number of Cards":4},
-{"Name":"Murakami Shiina","Element":["Water","Fire","Wind","Earth","Moon"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine","Swimsuit"],"Series":"Stella No Mahou","Release Year":2017,"Number of Cards":6},
-{"Name":"Seki Ayame","Element":["Fire","Wind","Moon"],"Class":["Warrior","Alchemist"],"Rarity":[3,4,5],"Event":["None"],"Series":"Stella No Mahou","Release Year":2017,"Number of Cards":3},
-{"Name":"Fuda Yumine","Element":["Wind","Sun","Moon"],"Class":["Warrior","Priest"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"Stella No Mahou","Release Year":2017,"Number of Cards":4},
-{"Name":"Hyakutake Teru","Element":["Water","Moon"],"Class":["Mage"],"Rarity":[4,5],"Event":["None"],"Series":"Stella No Mahou","Release Year":2018,"Number of Cards":2},
-{"Name":"Iino Minaha","Element":["Sun","Moon"],"Class":["Alchemist"],"Rarity":[4,5],"Event":["None"],"Series":"Stella No Mahou","Release Year":2019,"Number of Cards":2},
-{"Name":"Iketani Nono","Element":["Fire","Wind","Moon"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["Maid"],"Series":"Stella No Mahou","Release Year":2019,"Number of Cards":3},
-{"Name":"Tsuruse Matsuri","Element":["Moon"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Stella No Mahou","Release Year":2020,"Number of Cards":1},
-{"Name":"Chiya","Element":["Fire","Wind","Earth","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine","Christmas","Easter"],"Series":"Urara Meirochou","Release Year":2017,"Number of Cards":8},
-{"Name":"Tatsumi Kon","Element":["Fire","Wind","Earth","Sun"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["White Day","Swimsuit","Bridal"],"Series":"Urara Meirochou","Release Year":2017,"Number of Cards":7},
-{"Name":"Yukimi Koume","Element":["Water","Wind","Earth","Moon"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine","Halloween"],"Series":"Urara Meirochou","Release Year":2017,"Number of Cards":6},
-{"Name":"Natsume Nono","Element":["Water","Wind","Earth"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Halloween","Hot Springs"],"Series":"Urara Meirochou","Release Year":2017,"Number of Cards":6},
-{"Name":"Iroi Saku","Element":["Wind"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Urara Meirochou","Release Year":2017,"Number of Cards":1},
-{"Name":"Natsume Nina","Element":["Wind","Sun"],"Class":["Alchemist"],"Rarity":[4,5],"Event":["None"],"Series":"Urara Meirochou","Release Year":2017,"Number of Cards":2},
-{"Name":"Nijou Omi","Element":["Wind","Earth","Moon"],"Class":["Warrior","Priest","Alchemist"],"Rarity":[4,5],"Event":["Tanabata","New Year"],"Series":"Urara Meirochou","Release Year":2018,"Number of Cards":3},
-{"Name":"Hanahara Tsubaki","Element":["Wind"],"Class":["Mage"],"Rarity":[5],"Event":["None"],"Series":"Urara Meirochou","Release Year":2021,"Number of Cards":1},
-{"Name":"Marie","Element":["Wind"],"Class":["Mage"],"Rarity":[4],"Event":["Halloween"],"Series":"Urara Meirochou","Release Year":2021,"Number of Cards":1},
-{"Name":"Oribe Yasuna","Element":["Water","Fire","Earth","Sun","Moon"],"Class":["Warrior","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","New Year"],"Series":"Kill Me Baby","Release Year":2018,"Number of Cards":5},
-{"Name":"Sonya","Element":["Water","Fire","Earth","Sun","Moon"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","Swimsuit","Halloween"],"Series":"Kill Me Baby","Release Year":2017,"Number of Cards":6},
-{"Name":"Goshiki Agiri","Element":["Fire","Wind","Earth"],"Class":["Warrior","Mage","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","New Year"],"Series":"Kill Me Baby","Release Year":2018,"Number of Cards":5},
-{"Name":"Takayama Haruka","Element":["Water","Fire","Wind","Sun"],"Class":["Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","Bridal"],"Series":"Sakura Trick","Release Year":2017,"Number of Cards":5},
-{"Name":"Sonoda Yuu","Element":["Water","Wind","Sun"],"Class":["Warrior","Mage","Priest"],"Rarity":[3,4,5],"Event":["Bridal","Pompompurin"],"Series":"Sakura Trick","Release Year":2017,"Number of Cards":5},
-{"Name":"Minami Shizuku","Element":["Fire","Wind","Earth"],"Class":["Warrior","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["White Day","Swimsuit"],"Series":"Sakura Trick","Release Year":2018,"Number of Cards":4},
-{"Name":"Noda Kotone","Element":["Wind","Earth","Sun"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","Valentine"],"Series":"Sakura Trick","Release Year":2018,"Number of Cards":4},
-{"Name":"Ikeno Kaede","Element":["Water","Fire","Sun"],"Class":["Warrior","Alchemist"],"Rarity":[3,4,5],"Event":["None"],"Series":"Sakura Trick","Release Year":2018,"Number of Cards":3},
-{"Name":"Iizuka Yuzu","Element":["Wind","Moon"],"Class":["Warrior","Mage"],"Rarity":[3,4],"Event":["None"],"Series":"Sakura Trick","Release Year":2018,"Number of Cards":2},
-{"Name":"Otokawa Sumi","Element":["Earth"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Sakura Trick","Release Year":2018,"Number of Cards":1},
-{"Name":"Sonoda Mitsuki","Element":["Wind","Sun"],"Class":["Warrior"],"Rarity":[4,5],"Event":["None"],"Series":"Sakura Trick","Release Year":2020,"Number of Cards":2},
-{"Name":"Sakuranomiya Maika","Element":["Water","Wind","Sun","Moon"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Hinamatsuri","Swimsuit"],"Series":"Blend S","Release Year":2018,"Number of Cards":6},
-{"Name":"Hinata Kaho","Element":["Water","Fire","Wind","Earth","Moon"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","New Year","Christmas"],"Series":"Blend S","Release Year":2018,"Number of Cards":7},
-{"Name":"Hoshikawa Mafuyu","Element":["Water","Moon"],"Class":["Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Christmas"],"Series":"Blend S","Release Year":2018,"Number of Cards":4},
-{"Name":"Amano Miu","Element":["Fire","Earth","Moon"],"Class":["Mage","Alchemist"],"Rarity":[3,4,5],"Event":["None"],"Series":"Blend S","Release Year":2018,"Number of Cards":3},
-{"Name":"Kanzaki Hideri","Element":["Fire","Earth","Sun"],"Class":["Warrior","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Hinamatsuri"],"Series":"Blend S","Release Year":2018,"Number of Cards":4},
-{"Name":"Sakuranomiya Aika","Element":["Moon"],"Class":["Alchemist"],"Rarity":[4],"Event":["None"],"Series":"Blend S","Release Year":2018,"Number of Cards":1},
-{"Name":"Ichinose Hana","Element":["Water","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Flower Blooming in the Wasteland","Halloween"],"Series":"Slow Start","Release Year":2018,"Number of Cards":6},
-{"Name":"Sengoku Kamuri","Element":["Water","Fire","Wind","Earth","Sun"],"Class":["Warrior","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine","My Melody"],"Series":"Slow Start","Release Year":2018,"Number of Cards":5},
-{"Name":"Tokura Eiko","Element":["Fire","Wind","Earth"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","Sports Festival","Valentine"],"Series":"Slow Start","Release Year":2018,"Number of Cards":6},
-{"Name":"Momochi Tamate","Element":["Water","Fire","Earth","Sun"],"Class":["Warrior","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"Slow Start","Release Year":2018,"Number of Cards":5},
-{"Name":"Hannen Hiroe","Element":["Water","Fire","Earth"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["New Year","Hot Springs"],"Series":"Slow Start","Release Year":2019,"Number of Cards":3},
-{"Name":"Shion","Element":["Water"],"Class":["Warrior"],"Rarity":[5],"Event":["Hinamatsuri"],"Series":"Slow Start","Release Year":2020,"Number of Cards":1},
-{"Name":"Kiyose Enami","Element":["Fire","Earth"],"Class":["Priest","Alchemist"],"Rarity":[5],"Event":["White Day"],"Series":"Slow Start","Release Year":2020,"Number of Cards":2},
-{"Name":"Tokura Miki","Element":["Wind"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Slow Start","Release Year":2021,"Number of Cards":1},
-{"Name":"Hirasawa Yui","Element":["Water","Fire","Earth"],"Class":["Warrior","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"K-ON!","Release Year":2018,"Number of Cards":4},
-{"Name":"Akiyama Mio","Element":["Water","Moon"],"Class":["Warrior","Priest"],"Rarity":[3,4,5],"Event":["Valentine","Part 2"],"Series":"K-ON!","Release Year":2018,"Number of Cards":4},
-{"Name":"Tainaka Ritsu","Element":["Earth","Sun"],"Class":["Mage","Priest","Knight"],"Rarity":[3,4],"Event":["Valentine"],"Series":"K-ON!","Release Year":2018,"Number of Cards":3},
-{"Name":"Kotobuki Tsumugi","Element":["Wind","Earth"],"Class":["Warrior","Alchemist"],"Rarity":[3,4],"Event":["None"],"Series":"K-ON!","Release Year":2018,"Number of Cards":2},
-{"Name":"Nakano Azusa","Element":["Wind","Earth","Moon"],"Class":["Mage","Priest"],"Rarity":[3,4,5],"Event":["None"],"Series":"K-ON!","Release Year":2018,"Number of Cards":3},
-{"Name":"Hirasawa Ui","Element":["Sun"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"K-ON!","Release Year":2018,"Number of Cards":1},
-{"Name":"Yamanaka Sawako","Element":["Fire"],"Class":["Warrior"],"Rarity":[5],"Event":["None"],"Series":"K-ON!","Release Year":2022,"Number of Cards":1},
-{"Name":"Shima Rin","Element":["Water","Fire","Wind","Moon"],"Class":["Warrior","Mage","Priest"],"Rarity":[4,5],"Event":["Traveler of the Wasteland","White Day"],"Series":"Yuru Camp","Release Year":2018,"Number of Cards":4},
-{"Name":"Kagamihara Nadeshiko","Element":["Water","Fire","Wind","Sun","Moon"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit","Valentine"],"Series":"Yuru Camp","Release Year":2018,"Number of Cards":5},
-{"Name":"Oogaki Chiaki","Element":["Water","Wind"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Yuru Camp","Release Year":2018,"Number of Cards":2},
-{"Name":"Inuyama Aoi","Element":["Water","Wind","Earth"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Yuru Camp","Release Year":2018,"Number of Cards":3},
-{"Name":"Saitou Ena","Element":["Water","Moon"],"Class":["Knight","Alchemist"],"Rarity":[4,5],"Event":["Tanabata"],"Series":"Yuru Camp","Release Year":2018,"Number of Cards":2},
-{"Name":"Ayano","Element":["Wind"],"Class":["Mage"],"Rarity":[5],"Event":["New Year"],"Series":"Yuru Camp","Release Year":2021,"Number of Cards":1},
-{"Name":"Rin (Grown-up)","Element":["Wind"],"Class":["Alchemist"],"Rarity":[5],"Event":["Grown-up"],"Series":"Yuru Camp","Release Year":2022,"Number of Cards":1},
-{"Name":"Moeta Kaoruko","Element":["Water","Wind","Earth","Moon"],"Class":["Warrior","Priest","Knight","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit","Christmas","Part 2"],"Series":"Comic Girls","Release Year":2018,"Number of Cards":5},
-{"Name":"Koizuka Koyume","Element":["Earth","Sun","Moon"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Comic Girls","Release Year":2018,"Number of Cards":3},
-{"Name":"Irokawa Ruki","Element":["Water","Wind","Earth","Moon"],"Class":["Mage","Knight","Alchemist"],"Rarity":[4,5],"Event":["Christmas","Bridal"],"Series":"Comic Girls","Release Year":2018,"Number of Cards":4},
-{"Name":"Katsuki Tsubasa","Element":["Water","Moon"],"Class":["Warrior","Mage"],"Rarity":[4,5],"Event":["Tanabata"],"Series":"Comic Girls","Release Year":2018,"Number of Cards":2},
-{"Name":"Fuura","Element":["Fire","Moon"],"Class":["Priest","Alchemist"],"Rarity":[4,5],"Event":["Halloween","Hot Springs"],"Series":"Comic Girls","Release Year":2019,"Number of Cards":2},
-{"Name":"Irokawa Miki","Element":["Sun"],"Class":["Mage"],"Rarity":[4],"Event":["None"],"Series":"Comic Girls","Release Year":2020,"Number of Cards":1},
-{"Name":"Nijino Miharu","Element":["Moon"],"Class":["Warrior"],"Rarity":[5],"Event":["None"],"Series":"Comic Girls","Release Year":2021,"Number of Cards":1},
-{"Name":"Mayu","Element":["Earth"],"Class":["Knight"],"Rarity":[5],"Event":["Part 2"],"Series":"Comic Girls","Release Year":2022,"Number of Cards":1},
-{"Name":"Yamaguchi Kisaragi","Element":["Water","Earth"],"Class":["Priest","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"GA Geijutsuka Art Design Class","Release Year":2019,"Number of Cards":3},
-{"Name":"Noda Miki","Element":["Fire","Earth"],"Class":["Mage","Priest"],"Rarity":[4,5],"Event":["Halloween"],"Series":"GA Geijutsuka Art Design Class","Release Year":2019,"Number of Cards":2},
-{"Name":"Tomokane","Element":["Fire"],"Class":["Warrior"],"Rarity":[4],"Event":["None"],"Series":"GA Geijutsuka Art Design Class","Release Year":2019,"Number of Cards":1},
-{"Name":"Oomichi Miyabi","Element":["Earth","Moon"],"Class":["Warrior","Alchemist"],"Rarity":[4,5],"Event":["Tanabata"],"Series":"GA Geijutsuka Art Design Class","Release Year":2019,"Number of Cards":2},
-{"Name":"Nozaki Namiko","Element":["Water","Wind"],"Class":["Knight"],"Rarity":[4,5],"Event":["Part 2"],"Series":"GA Geijutsuka Art Design Class","Release Year":2019,"Number of Cards":2},
-{"Name":"Merry Nightmare","Element":["Water","Fire","Wind","Earth","Moon"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","Christmas","Valentine","Hello Kitty"],"Series":"Yumekui Merry","Release Year":2018,"Number of Cards":8},
-{"Name":"Tachibana Isana","Element":["Water","Wind","Sun"],"Class":["Mage","Priest"],"Rarity":[4,5],"Event":["Hinamatsuri"],"Series":"Yumekui Merry","Release Year":2018,"Number of Cards":3},
-{"Name":"Engi Threepiece","Element":["Fire","Moon"],"Class":["Warrior","Knight"],"Rarity":[4,5],"Event":["Sports Festival"],"Series":"Yumekui Merry","Release Year":2020,"Number of Cards":2},
-{"Name":"Yui Kounagi","Element":["Sun","Moon"],"Class":["Warrior","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Yumekui Merry","Release Year":2020,"Number of Cards":2},
-{"Name":"Clione","Element":["Earth"],"Class":["Alchemist"],"Rarity":[5],"Event":["Christmas"],"Series":"Yumekui Merry","Release Year":2021,"Number of Cards":1},
-{"Name":"Sekiya Naru","Element":["Earth","Sun"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Hanayamata","Release Year":2018,"Number of Cards":2},
-{"Name":"Hana N. Fountainstand","Element":["Sun","Moon"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Hanayamata","Release Year":2018,"Number of Cards":2},
-{"Name":"Sasame Yaya","Element":["Water"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Hanayamata","Release Year":2018,"Number of Cards":1},
-{"Name":"Nishimikado Tami","Element":["Sun"],"Class":["Warrior"],"Rarity":[5],"Event":["None"],"Series":"Hanayamata","Release Year":2020,"Number of Cards":1},
-{"Name":"Machi Tokiwa","Element":["Sun"],"Class":["Alchemist"],"Rarity":[5],"Event":["None"],"Series":"Hanayamata","Release Year":2021,"Number of Cards":1},
-{"Name":"Hanakoizumi Anne","Element":["Water","Fire","Sun","Moon"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[4,5],"Event":["Christmas","Kuromi","Bridal"],"Series":"Anne Happy","Release Year":2018,"Number of Cards":5},
-{"Name":"Hibarigaoka Ruri","Element":["Water","Moon"],"Class":["Mage","Priest"],"Rarity":[4,5],"Event":["Hot Springs"],"Series":"Anne Happy","Release Year":2018,"Number of Cards":3},
-{"Name":"Kumegawa Botan","Element":["Earth","Moon"],"Class":["Mage","Priest"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Anne Happy","Release Year":2018,"Number of Cards":3},
-{"Name":"Hibiki","Element":["Moon"],"Class":["Warrior"],"Rarity":[5],"Event":["Valentine"],"Series":"Anne Happy","Release Year":2020,"Number of Cards":1},
-{"Name":"Ekoda Ren","Element":["Water","Fire"],"Class":["Warrior","Alchemist"],"Rarity":[4,5],"Event":["Valentine"],"Series":"Anne Happy","Release Year":2020,"Number of Cards":2},
-{"Name":"Sayama Tsubaki","Element":["Earth","Moon"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Maid"],"Series":"Anne Happy","Release Year":2020,"Number of Cards":2},
-{"Name":"Oozora Haruka","Element":["Water","Fire","Earth"],"Class":["Warrior","Priest","Knight"],"Rarity":[4,5],"Event":["Swimsuit","Hot Springs"],"Series":"Harukana Receive","Release Year":2018,"Number of Cards":4},
-{"Name":"Higa Kanata","Element":["Water","Fire","Sun"],"Class":["Mage","Priest","Alchemist"],"Rarity":[4,5],"Event":["Hot Springs","Bridal"],"Series":"Harukana Receive","Release Year":2018,"Number of Cards":4},
-{"Name":"Thomas Claire","Element":["Earth","Sun","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[4,5],"Event":["Halloween","Hot Springs"],"Series":"Harukana Receive","Release Year":2018,"Number of Cards":3},
-{"Name":"Thomas Emily","Element":["Water","Earth"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Harukana Receive","Release Year":2018,"Number of Cards":2},
-{"Name":"Ooshiro Akari","Element":["Fire"],"Class":["Alchemist"],"Rarity":[4],"Event":["None"],"Series":"Harukana Receive","Release Year":2019,"Number of Cards":1},
-{"Name":"Narumi Tooi","Element":["Fire"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Harukana Receive","Release Year":2020,"Number of Cards":1},
-{"Name":"Ayasa Tachibana","Element":["Fire","Sun"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Harukana Receive","Release Year":2020,"Number of Cards":2},
-{"Name":"Hoto Cocoa","Element":["Water","Fire","Wind","Earth"],"Class":["Warrior","Mage","Priest","Alchemist"],"Rarity":[4,5],"Event":["Christmas","Swimsuit","Part 2"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2018,"Number of Cards":5},
-{"Name":"Kafuu Chino","Element":["Water","Earth","Sun"],"Class":["Warrior","Mage","Knight"],"Rarity":[4,5],"Event":["Swimsuit","Part 2"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2018,"Number of Cards":4},
-{"Name":"Tedeza Rize","Element":["Water","Earth","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[4,5],"Event":["Halloween","Swimsuit"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2019,"Number of Cards":4},
-{"Name":"Ujimatsu Chiya","Element":["Fire","Wind"],"Class":["Mage","Priest"],"Rarity":[4,5],"Event":["Christmas"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2019,"Number of Cards":3},
-{"Name":"Kirima Syaro","Element":["Fire","Wind","Earth","Moon"],"Class":["Mage","Priest","Alchemist"],"Rarity":[4,5],"Event":["Halloween","Swimsuit"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2019,"Number of Cards":4},
-{"Name":"Maya","Element":["Water","Sun"],"Class":["Warrior"],"Rarity":[4,5],"Event":["None"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2019,"Number of Cards":2},
-{"Name":"Megu","Element":["Water","Sun"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2019,"Number of Cards":2},
-{"Name":"Mocha","Element":["Wind"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2020,"Number of Cards":1},
-{"Name":"Aoyama-san","Element":["Water"],"Class":["Priest"],"Rarity":[5],"Event":["New Year"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2021,"Number of Cards":1},
-{"Name":"Hatoya Kohane","Element":["Fire","Sun"],"Class":["Mage","Priest"],"Rarity":[4,5],"Event":["Bridal"],"Series":"Anima Yell!","Release Year":2018,"Number of Cards":3},
-{"Name":"Arima Hizume","Element":["Fire","Wind","Moon"],"Class":["Mage","Knight","Alchemist"],"Rarity":[4,5],"Event":["Valentine","Maid"],"Series":"Anima Yell!","Release Year":2018,"Number of Cards":4},
-{"Name":"Sawatari Uki","Element":["Fire","Wind"],"Class":["Warrior","Alchemist"],"Rarity":[4,5],"Event":["Tanabata"],"Series":"Anima Yell!","Release Year":2018,"Number of Cards":3},
-{"Name":"Tatejima Kotetsu","Element":["Water","Earth"],"Class":["Warrior","Mage","Alchemist"],"Rarity":[4,5],"Event":["Christmas","Swimsuit"],"Series":"Anima Yell!","Release Year":2019,"Number of Cards":3},
-{"Name":"Ushiku Kana","Element":["Wind","Sun","Moon"],"Class":["Warrior","Mage","Priest"],"Rarity":[4,5],"Event":["White Day","Hot Springs"],"Series":"Anima Yell!","Release Year":2019,"Number of Cards":3},
-{"Name":"Inaba Towa","Element":["Moon"],"Class":["Alchemist"],"Rarity":[4],"Event":["None"],"Series":"Anima Yell!","Release Year":2020,"Number of Cards":1},
-{"Name":"Kirara","Element":["Sun"],"Class":["Mage","Priest","Knight"],"Rarity":[5],"Event":["Manga ver.","Cross Character","Part 2"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":3},
-{"Name":"Lamp","Element":["Sun"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[4,5],"Event":["Sports Festival","Swimsuit","Tanabata","Cross Character","Part 2"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":6},
-{"Name":"Clea","Element":["Water"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit","Hinamatsuri","Manga ver.","Bridal"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":4},
-{"Name":"Polka","Element":["Fire","Earth","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[4,5],"Event":["Swimsuit","Cross Character","Easter"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":4},
-{"Name":"Cork","Element":["Fire","Wind","Earth"],"Class":["Warrior","Mage","Priest","Alchemist"],"Rarity":[5],"Event":["Maid","Cross Character","Tanabata"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":4},
-{"Name":"Kanna","Element":["Moon"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Kirara Fantasia","Release Year":2020,"Number of Cards":1},
-{"Name":"Leine","Element":["Sun"],"Class":["Warrior","Knight","Alchemist"],"Rarity":[4,5],"Event":["New Year","Hot Springs"],"Series":"Kirara Fantasia","Release Year":2020,"Number of Cards":3},
-{"Name":"Sola","Element":["Moon"],"Class":["Priest"],"Rarity":[5],"Event":["Cross Character"],"Series":"Kirara Fantasia","Release Year":2021,"Number of Cards":1},
-{"Name":"Archive","Element":["Moon"],"Class":["Warrior","Mage","Priest","Alchemist"],"Rarity":[5],"Event":["New Year","Cross Character","Hot Springs"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":4},
-{"Name":"Sugar","Element":["Earth"],"Class":["Warrior","Mage"],"Rarity":[5],"Event":["Valentine"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":2},
-{"Name":"Sesame","Element":["Water"],"Class":["Mage","Priest","Alchemist"],"Rarity":[5],"Event":["Bridal","Part 2"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":3},
-{"Name":"Cardamom","Element":["Fire"],"Class":["Warrior","Priest"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2020,"Number of Cards":2},
-{"Name":"Salt","Element":["Wind"],"Class":["Warrior","Mage"],"Rarity":[5],"Event":["White Day"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":2},
-{"Name":"Ginger","Element":["Sun"],"Class":["Warrior","Priest"],"Rarity":[5],"Event":["Maid"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":2},
-{"Name":"Fennel","Element":["Moon"],"Class":["Warrior","Knight"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2020,"Number of Cards":2},
-{"Name":"Hakka","Element":["Moon"],"Class":["Warrior","Mage"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2020,"Number of Cards":2},
-{"Name":"Media","Element":["Moon"],"Class":["Mage"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2022,"Number of Cards":1},
-{"Name":"Utsutsu","Element":["Moon"],"Class":["Knight","Alchemist"],"Rarity":[5],"Event":["Part 2","Swimsuit"],"Series":"Kirara Fantasia","Release Year":2022,"Number of Cards":2},
-{"Name":"Enishida","Element":["Fire"],"Class":["Alchemist"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2022,"Number of Cards":1},
-{"Name":"Highpris","Element":["Sun"],"Class":["Priest"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2022,"Number of Cards":1},
-{"Name":"Sunstone","Element":["Moon"],"Class":["Warrior"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2022,"Number of Cards":1},
-{"Name":"Nishikawa Youko","Element":["Wind","Moon"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["New Year"],"Series":"Sansha Sanyou","Release Year":2019,"Number of Cards":3},
-{"Name":"Odagiri Futaba","Element":["Water","Fire","Wind"],"Class":["Warrior","Priest","Knight"],"Rarity":[4,5],"Event":["Christmas","Swimsuit"],"Series":"Sansha Sanyou","Release Year":2019,"Number of Cards":3},
-{"Name":"Hayama Teru","Element":["Wind","Sun"],"Class":["Alchemist"],"Rarity":[4,5],"Event":["None"],"Series":"Sansha Sanyou","Release Year":2019,"Number of Cards":2},
-{"Name":"Nishiyama Serina","Element":["Wind","Earth"],"Class":["Warrior","Knight"],"Rarity":[4,5],"Event":["Maid"],"Series":"Sansha Sanyou","Release Year":2020,"Number of Cards":2},
-{"Name":"Sonobe","Element":["Wind","Sun"],"Class":["Warrior","Knight"],"Rarity":[5],"Event":["Gudetama","Easter"],"Series":"Sansha Sanyou","Release Year":2020,"Number of Cards":2},
-{"Name":"Kondou","Element":["Wind"],"Class":["Alchemist"],"Rarity":[4],"Event":["Maid"],"Series":"Sansha Sanyou","Release Year":2021,"Number of Cards":1},
-{"Name":"Hayama Kou","Element":["Fire","Wind"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["Tanabata"],"Series":"Sansha Sanyou","Release Year":2022,"Number of Cards":2},
-{"Name":"Kuro","Element":["Earth","Moon"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Halloween"],"Series":"Hitsugi Katsugi no Kuro ~Kaichuu Tabi no Wa~","Release Year":2019,"Number of Cards":3},
-{"Name":"Yoshida Yuuko","Element":["Sun","Moon"],"Class":["Warrior","Priest"],"Rarity":[4,5],"Event":["Sports Festival"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":3},
-{"Name":"Chiyoda Momo","Element":["Sun","Moon"],"Class":["Warrior","Mage"],"Rarity":[4,5],"Event":["Christmas"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":3},
-{"Name":"Lilith","Element":["Earth","Moon"],"Class":["Mage"],"Rarity":[4,5],"Event":["Part 2"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":2},
-{"Name":"Hinatsuki Mikan","Element":["Wind","Sun"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":2},
-{"Name":"Ryoko","Element":["Water","Earth"],"Class":["Alchemist"],"Rarity":[4,5],"Event":["Hinamatsuri","Swimsuit"],"Series":"Machikado Mazoku","Release Year":2020,"Number of Cards":2},
-{"Name":"Hosono Harumi","Element":["Fire","Earth","Sun"],"Class":["Warrior","Priest","Knight"],"Rarity":[4,5],"Event":["Swimsuit","Hot Springs"],"Series":"Harumination","Release Year":2020,"Number of Cards":3},
-{"Name":"Sakamoto Kaju","Element":["Earth"],"Class":["Priest"],"Rarity":[4],"Event":["None"],"Series":"Harumination","Release Year":2021,"Number of Cards":1},
-{"Name":"Takahashi Yuki","Element":["Earth"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Harumination","Release Year":2021,"Number of Cards":1},
-{"Name":"Arumi","Element":["Water"],"Class":["Alchemist"],"Rarity":[4],"Event":["Bridal"],"Series":"Harumination","Release Year":2021,"Number of Cards":1},
-{"Name":"Machiko Ryou","Element":["Water","Fire","Earth"],"Class":["Priest","Knight","Alchemist"],"Rarity":[5],"Event":["Swimsuit","New Year"],"Series":"Koufuku Graffiti","Release Year":2020,"Number of Cards":3},
-{"Name":"Morino Kirin","Element":["Fire","Moon"],"Class":["Warrior","Knight"],"Rarity":[4,5],"Event":["Sports Festival"],"Series":"Koufuku Graffiti","Release Year":2020,"Number of Cards":3},
-{"Name":"Shiina","Element":["Fire","Earth"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Koufuku Graffiti","Release Year":2020,"Number of Cards":3},
-{"Name":"Uchiki Yuki","Element":["Fire"],"Class":["Priest"],"Rarity":[5],"Event":["None"],"Series":"Koufuku Graffiti","Release Year":2021,"Number of Cards":1},
-{"Name":"Konohata Mira","Element":["Wind","Earth","Moon"],"Class":["Priest","Alchemist"],"Rarity":[4,5],"Event":["Valentine"],"Series":"Koisuru Asteroid","Release Year":2020,"Number of Cards":3},
-{"Name":"Manaka Ao","Element":["Fire","Earth","Moon"],"Class":["Mage","Priest","Knight"],"Rarity":[4,5],"Event":["White Day","Tanabata"],"Series":"Koisuru Asteroid","Release Year":2020,"Number of Cards":3},
-{"Name":"Inose Mai","Element":["Fire","Earth"],"Class":["Warrior","Knight"],"Rarity":[4,5],"Event":["Halloween"],"Series":"Koisuru Asteroid","Release Year":2020,"Number of Cards":2},
-{"Name":"Sakura","Element":["Earth"],"Class":["Mage"],"Rarity":[5],"Event":["Swimsuit"],"Series":"Koisuru Asteroid","Release Year":2021,"Number of Cards":1},
-{"Name":"Monroe","Element":["Earth"],"Class":["Alchemist"],"Rarity":[4,5],"Event":["Swimsuit","Hot Springs"],"Series":"Koisuru Asteroid","Release Year":2021,"Number of Cards":2},
-{"Name":"Takeda Yomi","Element":["Wind","Sun"],"Class":["Mage"],"Rarity":[4,5],"Event":["None"],"Series":"Tamayomi","Release Year":2020,"Number of Cards":2},
-{"Name":"Yamazaki Tamaki","Element":["Fire"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Tamayomi","Release Year":2020,"Number of Cards":1},
-{"Name":"Kawaguchi Yoshino","Element":["Wind"],"Class":["Alchemist"],"Rarity":[5],"Event":["None"],"Series":"Tamayomi","Release Year":2021,"Number of Cards":1},
-{"Name":"Nakamura Nozomi","Element":["Wind"],"Class":["Warrior"],"Rarity":[5],"Event":["None"],"Series":"Tamayomi","Release Year":2021,"Number of Cards":1},
-{"Name":"Sakura Ino","Element":["Moon"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Ochikobore Fruit Tart","Release Year":2020,"Number of Cards":1},
-{"Name":"Sekino Roko","Element":["Water","Moon"],"Class":["Warrior","Mage"],"Rarity":[4,5],"Event":["Valentine"],"Series":"Ochikobore Fruit Tart","Release Year":2020,"Number of Cards":2},
-{"Name":"Nukui Hayu ","Element":["Fire","Moon"],"Class":["Warrior","Priest"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Ochikobore Fruit Tart","Release Year":2020,"Number of Cards":2},
-{"Name":"Maehara Nina ","Element":["Earth","Moon"],"Class":["Priest","Alchemist"],"Rarity":[4,5],"Event":["White Day"],"Series":"Ochikobore Fruit Tart","Release Year":2020,"Number of Cards":2},
-{"Name":"Hemo Midori","Element":["Moon"],"Class":["Mage"],"Rarity":[5],"Event":["None"],"Series":"Ochikobore Fruit Tart","Release Year":2021,"Number of Cards":1},
-{"Name":"Miniwa Tsumiki ","Element":["Wind","Earth"],"Class":["Warrior","Priest"],"Rarity":[4,5],"Event":["New Year"],"Series":"Acchi Kocchi","Release Year":2021,"Number of Cards":2},
-{"Name":"Haruno Hime ","Element":["Sun"],"Class":["Priest"],"Rarity":[4],"Event":["None"],"Series":"Acchi Kocchi","Release Year":2020,"Number of Cards":1},
-{"Name":"Katase Mayoi ","Element":["Earth","Moon"],"Class":["Mage"],"Rarity":[4,5],"Event":["None"],"Series":"Acchi Kocchi","Release Year":2020,"Number of Cards":2},
-{"Name":"Sakuragawa Kikue","Element":["Wind"],"Class":["Knight"],"Rarity":[4],"Event":["Easter"],"Series":"Acchi Kocchi","Release Year":2021,"Number of Cards":1},
-{"Name":"Shinohana Mayu","Element":["Water","Earth"],"Class":["Knight","Alchemist"],"Rarity":[4,5],"Event":["None"],"Series":"Power of Smile.","Release Year":2022,"Number of Cards":2},
-{"Name":"Kodou Tamaki","Element":["Water","Fire"],"Class":["Warrior"],"Rarity":[4,5],"Event":["Easter"],"Series":"Power of Smile.","Release Year":2020,"Number of Cards":2},
-{"Name":"Souenji Miku","Element":["Fire"],"Class":["Priest"],"Rarity":[5],"Event":["None"],"Series":"Power of Smile.","Release Year":2021,"Number of Cards":1},
-{"Name":"Onosaka Koharu","Element":["Water","Moon"],"Class":["Knight","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Koharu Biyori","Release Year":2021,"Number of Cards":2},
-{"Name":"Tachibana Nina","Element":["Water","Moon"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Koharu Biyori","Release Year":2020,"Number of Cards":2},
-{"Name":"Kitazawa Misaki","Element":["Fire"],"Class":["Mage"],"Rarity":[4],"Event":["None"],"Series":"Koharu Biyori","Release Year":2021,"Number of Cards":1},
-{"Name":"Makinose Himari","Element":["Wind"],"Class":["Warrior"],"Rarity":[4],"Event":["None"],"Series":"Koharu Biyori","Release Year":2021,"Number of Cards":1},
-{"Name":"Saori","Element":["Moon"],"Class":["Mage"],"Rarity":[5],"Event":["Tanabata"],"Series":"Koharu Biyori","Release Year":2022,"Number of Cards":1},
-{"Name":"Satonaka Chie","Element":["Sun"],"Class":["Priest"],"Rarity":[5],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
-{"Name":"Shirai Reiko","Element":["Moon"],"Class":["Mage"],"Rarity":[5],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
-{"Name":"Kurahashi Riko","Element":["Fire"],"Class":["Warrior"],"Rarity":[5],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
-{"Name":"Maki Natsuo","Element":["Water"],"Class":["Alchemist"],"Rarity":[5],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
-{"Name":"Komori Shuri","Element":["Moon"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
-{"Name":"Nishitori Megumi","Element":["Sun"],"Class":["Mage"],"Rarity":[5],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
-{"Name":"Negishi Masako","Element":["Moon"],"Class":["Alchemist"],"Rarity":[4],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
-{"Name":"Kazairo Kotone","Element":["Fire"],"Class":["Mage"],"Rarity":[5],"Event":["None"],"Series":"RPG Real Estate","Release Year":2022,"Number of Cards":1},
-{"Name":"Fa","Element":["Earth","Moon"],"Class":["Warrior","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"RPG Real Estate","Release Year":2022,"Number of Cards":2},
-{"Name":"Rufuria","Element":["Wind"],"Class":["Priest"],"Rarity":[4],"Event":["None"],"Series":"RPG Real Estate","Release Year":2022,"Number of Cards":1},
-{"Name":"Rakira","Element":["Wind"],"Class":["Warrior"],"Rarity":[4],"Event":["None"],"Series":"RPG Real Estate","Release Year":2022,"Number of Cards":1},
-{"Name":"Gotoh Hitori","Element":["Moon"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Bocchi the Rock!","Release Year":2022,"Number of Cards":1},
-{"Name":"Ijichi Nijika","Element":["Water"],"Class":["Priest"],"Rarity":[4],"Event":["None"],"Series":"Bocchi the Rock!","Release Year":2022,"Number of Cards":1},
-{"Name":"Yamada Ryo","Element":["Earth"],"Class":["Alchemist"],"Rarity":[4],"Event":["None"],"Series":"Bocchi the Rock!","Release Year":2022,"Number of Cards":1},
-{"Name":"Kita Ikuyo","Element":["Fire"],"Class":["Warrior"],"Rarity":[4],"Event":["None"],"Series":"Bocchi the Rock!","Release Year":2022,"Number of Cards":1},
-{"Name":"Minagi Hiyori","Element":["Water"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Slow Loop","Release Year":2022,"Number of Cards":1},
-{"Name":"Minagi Koharu","Element":["Water","Wind"],"Class":["Warrior","Priest"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Slow Loop","Release Year":2022,"Number of Cards":2},
-{"Name":"Yoshinaga Koi","Element":["Earth"],"Class":["Mage"],"Rarity":[4],"Event":["None"],"Series":"Slow Loop","Release Year":2022,"Number of Cards":1}
+			{"Name":"Miyako","Element":["Fire","Earth","Sun","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[3,4,5],"Event":["Christmas"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":5},
+			{"Name":"Hiro","Element":["Fire","Wind","Sun"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":4},
+			{"Name":"Sae","Element":["Water","Earth","Sun"],"Class":["Warrior","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["White Day"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":3},
+			{"Name":"Nori","Element":["Water","Wind"],"Class":["Knight"],"Rarity":[3,4],"Event":["None"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":2},
+			{"Name":"Nazuna","Element":["Earth","Sun","Moon"],"Class":["Warrior","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":3},
+			{"Name":"Nonohara Yuzuko","Element":["Water","Fire","Wind","Earth"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["New Year","Swimsuit","Halloween"],"Series":"Yuyushiki","Release Year":2017,"Number of Cards":7},
+			{"Name":"Ichii Yui","Element":["Water","Fire","Wind","Earth","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Hinamatsuri","Swimsuit"],"Series":"Yuyushiki","Release Year":2017,"Number of Cards":8},
+			{"Name":"Hinata Yukari","Element":["Water","Fire","Wind","Earth","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","New Year"],"Series":"Yuyushiki","Release Year":2017,"Number of Cards":6},
+			{"Name":"Matsumoto Yoriko","Element":["Fire","Earth","Sun","Moon"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Maid"],"Series":"Yuyushiki","Release Year":2017,"Number of Cards":4},
+			{"Name":"Aikawa Chiho","Element":["Wind","Earth","Sun"],"Class":["Priest","Knight"],"Rarity":[3,4,5],"Event":["Hot Springs"],"Series":"Yuyushiki","Release Year":2017,"Number of Cards":4},
+			{"Name":"Okano Kei","Element":["Fire"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Yuyushiki","Release Year":2018,"Number of Cards":1},
+			{"Name":"Hasegawa Fumi","Element":["Fire","Earth"],"Class":["Mage"],"Rarity":[4,5],"Event":["None"],"Series":"Yuyushiki","Release Year":2018,"Number of Cards":2},
+			{"Name":"Takeya Yuki","Element":["Water","Fire","Wind","Earth"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"Gakkou Gurashi","Release Year":2017,"Number of Cards":6},
+			{"Name":"Ebisuzawa Kurumi","Element":["Wind","Earth","Sun","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[3,4,5],"Event":["Swimsuit","Christmas"],"Series":"Gakkou Gurashi","Release Year":2017,"Number of Cards":6},
+			{"Name":"Wakasa Yuuri","Element":["Water","Fire","Wind","Earth","Moon"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["New Year","Hot Springs"],"Series":"Gakkou Gurashi","Release Year":2017,"Number of Cards":6},
+			{"Name":"Naoki Miki","Element":["Fire","Wind","Earth","Moon"],"Class":["Warrior","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Halloween"],"Series":"Gakkou Gurashi","Release Year":2017,"Number of Cards":5},
+			{"Name":"Sakura Megumi","Element":["Water","Fire","Wind"],"Class":["Warrior","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"Gakkou Gurashi","Release Year":2017,"Number of Cards":4},
+			{"Name":"Shidou Kei","Element":["Wind"],"Class":["Mage"],"Rarity":[5],"Event":["None"],"Series":"Gakkou Gurashi","Release Year":2020,"Number of Cards":1},
+			{"Name":"Yuki (Grown-up)","Element":["Sun"],"Class":["Knight"],"Rarity":[5],"Event":["Grown-up"],"Series":"Gakkou Gurashi","Release Year":2021,"Number of Cards":1},
+			{"Name":"Kurumi (Grown-up)","Element":["Sun"],"Class":["Priest"],"Rarity":[5],"Event":["Grown-up"],"Series":"Gakkou Gurashi","Release Year":2022,"Number of Cards":1},
+			{"Name":"Yuuri (Grown-up)","Element":["Sun"],"Class":["Alchemist"],"Rarity":[5],"Event":["Grown-up"],"Series":"Gakkou Gurashi","Release Year":2022,"Number of Cards":1},
+			{"Name":"Miki (Grown-up)","Element":["Sun"],"Class":["Mage"],"Rarity":[5],"Event":["Grown-up"],"Series":"Gakkou Gurashi","Release Year":2021,"Number of Cards":1},
+			{"Name":"Tooru","Element":["Water","Fire","Wind","Earth","Sun"],"Class":["Warrior","Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","Christmas","White Day"],"Series":"A-Channel","Release Year":2017,"Number of Cards":8},
+			{"Name":"Run","Element":["Water","Fire","Wind","Earth","Sun"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","New Year","Valentine"],"Series":"A-Channel","Release Year":2017,"Number of Cards":7},
+			{"Name":"Yuuko","Element":["Wind","Earth","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Christmas","Swimsuit"],"Series":"A-Channel","Release Year":2017,"Number of Cards":6},
+			{"Name":"Nagi","Element":["Water","Fire","Wind","Earth","Moon"],"Class":["Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"A-Channel","Release Year":2017,"Number of Cards":5},
+			{"Name":"Miho","Element":["Water"],"Class":["Warrior"],"Rarity":[4],"Event":["None"],"Series":"A-Channel","Release Year":2018,"Number of Cards":1},
+			{"Name":"Yutaka","Element":["Water","Wind"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["Maid"],"Series":"A-Channel","Release Year":2019,"Number of Cards":2},
+			{"Name":"Kitou Kimiko","Element":["Fire"],"Class":["Priest"],"Rarity":[4],"Event":["None"],"Series":"A-Channel","Release Year":2019,"Number of Cards":1},
+			{"Name":"Kujou Karen","Element":["Fire","Wind","Earth","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","A Magician From Overseas","Sports Festival","Christmas"],"Series":"Kiniro Mosaic","Release Year":2017,"Number of Cards":8},
+			{"Name":"Alice Cartelet","Element":["Water","Fire","Wind","Earth","Sun"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","New Year","Cinnamoroll"],"Series":"Kiniro Mosaic","Release Year":2017,"Number of Cards":8},
+			{"Name":"Oomiya Shinobu","Element":["Water","Fire","Earth","Sun"],"Class":["Warrior","Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["New Year","Postman of Happiness"],"Series":"Kiniro Mosaic","Release Year":2017,"Number of Cards":6},
+			{"Name":"Komichi Aya","Element":["Water","Wind","Sun","Moon"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine","Swimsuit","Christmas"],"Series":"Kiniro Mosaic","Release Year":2017,"Number of Cards":5},
+			{"Name":"Inokuma Youko","Element":["Fire","Sun"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Sports Festival","Swimsuit","Hot Springs"],"Series":"Kiniro Mosaic","Release Year":2017,"Number of Cards":5},
+			{"Name":"Matsubara Honoka","Element":["Water","Wind","Moon"],"Class":["Warrior","Priest"],"Rarity":[3,4,5],"Event":["None"],"Series":"Kiniro Mosaic","Release Year":2017,"Number of Cards":3},
+			{"Name":"Oomiya Isami","Element":["Water","Fire"],"Class":["Priest","Alchemist"],"Rarity":[4,5],"Event":["New Year"],"Series":"Kiniro Mosaic","Release Year":2018,"Number of Cards":2},
+			{"Name":"Karasuma Sakura","Element":["Wind","Earth"],"Class":["Warrior"],"Rarity":[4,5],"Event":["None"],"Series":"Kiniro Mosaic","Release Year":2018,"Number of Cards":2},
+			{"Name":"Kuzehashi Akari","Element":["Wind"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Kiniro Mosaic","Release Year":2018,"Number of Cards":1},
+			{"Name":"Kana Higurashi","Element":["Water"],"Class":["Mage"],"Rarity":[4],"Event":["None"],"Series":"Kiniro Mosaic","Release Year":2021,"Number of Cards":1},
+			{"Name":"Suzukaze Aoba","Element":["Fire","Wind","Earth"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Sports Festival"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":7},
+			{"Name":"Takimoto Hifumi","Element":["Water","Fire","Wind","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Christmas","Maid","Swimsuit"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":7},
+			{"Name":"Shinoda Hajime","Element":["Water","Wind"],"Class":["Warrior","Knight"],"Rarity":[3,4,5],"Event":["Christmas"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":3},
+			{"Name":"Iijima Yun","Element":["Fire","Earth","Moon"],"Class":["Warrior","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Hinamatsuri"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":3},
+			{"Name":"Yagami Kou","Element":["Water","Fire","Wind","Earth","Sun"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","New Year"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":5},
+			{"Name":"Tooyama Rin","Element":["Water","Fire","Moon"],"Class":["Priest","Alchemist"],"Rarity":[3,4,5],"Event":["None"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":3},
+			{"Name":"Sakura Nene","Element":["Wind","Earth"],"Class":["Warrior"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"NEW GAME!","Release Year":2018,"Number of Cards":2},
+			{"Name":"Ahagon Umiko","Element":["Water","Wind","Earth"],"Class":["Warrior"],"Rarity":[3,4,5],"Event":["None"],"Series":"NEW GAME!","Release Year":2018,"Number of Cards":3},
+			{"Name":"Mochizuki Momiji","Element":["Water","Earth","Moon"],"Class":["Warrior","Mage","Priest"],"Rarity":[4,5],"Event":["New Year","Valentine"],"Series":"NEW GAME!","Release Year":2017,"Number of Cards":3},
+			{"Name":"Narumi Tsubame","Element":["Water","Earth"],"Class":["Priest","Knight"],"Rarity":[4,5],"Event":["Valentine"],"Series":"NEW GAME!","Release Year":2018,"Number of Cards":2},
+			{"Name":"Hazuki Shizuku","Element":["Fire"],"Class":["Alchemist"],"Rarity":[4],"Event":["None"],"Series":"NEW GAME!","Release Year":2019,"Number of Cards":1},
+			{"Name":"Hoshikawa Hotaru","Element":["Water","Earth"],"Class":["Mage"],"Rarity":[4,5],"Event":["None"],"Series":"NEW GAME!","Release Year":2018,"Number of Cards":2},
+			{"Name":"Honda Tamaki","Element":["Water","Fire","Wind","Earth","Sun"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","Sports Festival"],"Series":"Stella No Mahou","Release Year":2017,"Number of Cards":7},
+			{"Name":"Fujikawa Kayo","Element":["Water","Fire","Wind","Moon"],"Class":["Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Easter"],"Series":"Stella No Mahou","Release Year":2017,"Number of Cards":4},
+			{"Name":"Murakami Shiina","Element":["Water","Fire","Wind","Earth","Moon"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine","Swimsuit"],"Series":"Stella No Mahou","Release Year":2017,"Number of Cards":6},
+			{"Name":"Seki Ayame","Element":["Fire","Wind","Moon"],"Class":["Warrior","Alchemist"],"Rarity":[3,4,5],"Event":["None"],"Series":"Stella No Mahou","Release Year":2017,"Number of Cards":3},
+			{"Name":"Fuda Yumine","Element":["Wind","Sun","Moon"],"Class":["Warrior","Priest"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"Stella No Mahou","Release Year":2017,"Number of Cards":4},
+			{"Name":"Hyakutake Teru","Element":["Water","Moon"],"Class":["Mage"],"Rarity":[4,5],"Event":["None"],"Series":"Stella No Mahou","Release Year":2018,"Number of Cards":2},
+			{"Name":"Iino Minaha","Element":["Sun","Moon"],"Class":["Alchemist"],"Rarity":[4,5],"Event":["None"],"Series":"Stella No Mahou","Release Year":2019,"Number of Cards":2},
+			{"Name":"Iketani Nono","Element":["Fire","Wind","Moon"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["Maid"],"Series":"Stella No Mahou","Release Year":2019,"Number of Cards":3},
+			{"Name":"Tsuruse Matsuri","Element":["Moon"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Stella No Mahou","Release Year":2020,"Number of Cards":1},
+			{"Name":"Chiya","Element":["Fire","Wind","Earth","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine","Christmas","Easter"],"Series":"Urara Meirochou","Release Year":2017,"Number of Cards":8},
+			{"Name":"Tatsumi Kon","Element":["Fire","Wind","Earth","Sun"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["White Day","Swimsuit","Bridal"],"Series":"Urara Meirochou","Release Year":2017,"Number of Cards":7},
+			{"Name":"Yukimi Koume","Element":["Water","Wind","Earth","Moon"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine","Halloween"],"Series":"Urara Meirochou","Release Year":2017,"Number of Cards":6},
+			{"Name":"Natsume Nono","Element":["Water","Wind","Earth"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Halloween","Hot Springs"],"Series":"Urara Meirochou","Release Year":2017,"Number of Cards":6},
+			{"Name":"Iroi Saku","Element":["Wind"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Urara Meirochou","Release Year":2017,"Number of Cards":1},
+			{"Name":"Natsume Nina","Element":["Wind","Sun"],"Class":["Alchemist"],"Rarity":[4,5],"Event":["None"],"Series":"Urara Meirochou","Release Year":2017,"Number of Cards":2},
+			{"Name":"Nijou Omi","Element":["Wind","Earth","Moon"],"Class":["Warrior","Priest","Alchemist"],"Rarity":[4,5],"Event":["Tanabata","New Year"],"Series":"Urara Meirochou","Release Year":2018,"Number of Cards":3},
+			{"Name":"Hanahara Tsubaki","Element":["Wind"],"Class":["Mage"],"Rarity":[5],"Event":["None"],"Series":"Urara Meirochou","Release Year":2021,"Number of Cards":1},
+			{"Name":"Marie","Element":["Wind"],"Class":["Mage"],"Rarity":[4],"Event":["Halloween"],"Series":"Urara Meirochou","Release Year":2021,"Number of Cards":1},
+			{"Name":"Oribe Yasuna","Element":["Water","Fire","Earth","Sun","Moon"],"Class":["Warrior","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","New Year"],"Series":"Kill Me Baby","Release Year":2018,"Number of Cards":5},
+			{"Name":"Sonya","Element":["Water","Fire","Earth","Sun","Moon"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","Swimsuit","Halloween"],"Series":"Kill Me Baby","Release Year":2017,"Number of Cards":6},
+			{"Name":"Goshiki Agiri","Element":["Fire","Wind","Earth"],"Class":["Warrior","Mage","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","New Year"],"Series":"Kill Me Baby","Release Year":2018,"Number of Cards":5},
+			{"Name":"Takayama Haruka","Element":["Water","Fire","Wind","Sun"],"Class":["Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","Bridal"],"Series":"Sakura Trick","Release Year":2017,"Number of Cards":5},
+			{"Name":"Sonoda Yuu","Element":["Water","Wind","Sun"],"Class":["Warrior","Mage","Priest"],"Rarity":[3,4,5],"Event":["Bridal","Pompompurin"],"Series":"Sakura Trick","Release Year":2017,"Number of Cards":5},
+			{"Name":"Minami Shizuku","Element":["Fire","Wind","Earth"],"Class":["Warrior","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["White Day","Swimsuit"],"Series":"Sakura Trick","Release Year":2018,"Number of Cards":4},
+			{"Name":"Noda Kotone","Element":["Wind","Earth","Sun"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","Valentine"],"Series":"Sakura Trick","Release Year":2018,"Number of Cards":4},
+			{"Name":"Ikeno Kaede","Element":["Water","Fire","Sun"],"Class":["Warrior","Alchemist"],"Rarity":[3,4,5],"Event":["None"],"Series":"Sakura Trick","Release Year":2018,"Number of Cards":3},
+			{"Name":"Iizuka Yuzu","Element":["Wind","Moon"],"Class":["Warrior","Mage"],"Rarity":[3,4],"Event":["None"],"Series":"Sakura Trick","Release Year":2018,"Number of Cards":2},
+			{"Name":"Otokawa Sumi","Element":["Earth"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Sakura Trick","Release Year":2018,"Number of Cards":1},
+			{"Name":"Sonoda Mitsuki","Element":["Wind","Sun"],"Class":["Warrior"],"Rarity":[4,5],"Event":["None"],"Series":"Sakura Trick","Release Year":2020,"Number of Cards":2},
+			{"Name":"Sakuranomiya Maika","Element":["Water","Wind","Sun","Moon"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Hinamatsuri","Swimsuit"],"Series":"Blend S","Release Year":2018,"Number of Cards":6},
+			{"Name":"Hinata Kaho","Element":["Water","Fire","Wind","Earth","Moon"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","New Year","Christmas"],"Series":"Blend S","Release Year":2018,"Number of Cards":7},
+			{"Name":"Hoshikawa Mafuyu","Element":["Water","Moon"],"Class":["Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Christmas"],"Series":"Blend S","Release Year":2018,"Number of Cards":4},
+			{"Name":"Amano Miu","Element":["Fire","Earth","Moon"],"Class":["Mage","Alchemist"],"Rarity":[3,4,5],"Event":["None"],"Series":"Blend S","Release Year":2018,"Number of Cards":3},
+			{"Name":"Kanzaki Hideri","Element":["Fire","Earth","Sun"],"Class":["Warrior","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Hinamatsuri"],"Series":"Blend S","Release Year":2018,"Number of Cards":4},
+			{"Name":"Sakuranomiya Aika","Element":["Moon"],"Class":["Alchemist"],"Rarity":[4],"Event":["None"],"Series":"Blend S","Release Year":2018,"Number of Cards":1},
+			{"Name":"Ichinose Hana","Element":["Water","Sun","Moon"],"Class":["Warrior","Mage","Priest","Knight"],"Rarity":[3,4,5],"Event":["Flower Blooming in the Wasteland","Halloween"],"Series":"Slow Start","Release Year":2018,"Number of Cards":6},
+			{"Name":"Sengoku Kamuri","Element":["Water","Fire","Wind","Earth","Sun"],"Class":["Warrior","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine","My Melody"],"Series":"Slow Start","Release Year":2018,"Number of Cards":5},
+			{"Name":"Tokura Eiko","Element":["Fire","Wind","Earth"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","Sports Festival","Valentine"],"Series":"Slow Start","Release Year":2018,"Number of Cards":6},
+			{"Name":"Momochi Tamate","Element":["Water","Fire","Earth","Sun"],"Class":["Warrior","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"Slow Start","Release Year":2018,"Number of Cards":5},
+			{"Name":"Hannen Hiroe","Element":["Water","Fire","Earth"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["New Year","Hot Springs"],"Series":"Slow Start","Release Year":2019,"Number of Cards":3},
+			{"Name":"Shion","Element":["Water"],"Class":["Warrior"],"Rarity":[5],"Event":["Hinamatsuri"],"Series":"Slow Start","Release Year":2020,"Number of Cards":1},
+			{"Name":"Kiyose Enami","Element":["Fire","Earth"],"Class":["Priest","Alchemist"],"Rarity":[5],"Event":["White Day"],"Series":"Slow Start","Release Year":2020,"Number of Cards":2},
+			{"Name":"Tokura Miki","Element":["Wind"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Slow Start","Release Year":2021,"Number of Cards":1},
+			{"Name":"Hirasawa Yui","Element":["Water","Fire","Earth"],"Class":["Warrior","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit"],"Series":"K-ON!","Release Year":2018,"Number of Cards":4},
+			{"Name":"Akiyama Mio","Element":["Water","Moon"],"Class":["Warrior","Priest"],"Rarity":[3,4,5],"Event":["Valentine","Part 2"],"Series":"K-ON!","Release Year":2018,"Number of Cards":4},
+			{"Name":"Tainaka Ritsu","Element":["Earth","Sun"],"Class":["Mage","Priest","Knight"],"Rarity":[3,4],"Event":["Valentine"],"Series":"K-ON!","Release Year":2018,"Number of Cards":3},
+			{"Name":"Kotobuki Tsumugi","Element":["Wind","Earth"],"Class":["Warrior","Alchemist"],"Rarity":[3,4],"Event":["None"],"Series":"K-ON!","Release Year":2018,"Number of Cards":2},
+			{"Name":"Nakano Azusa","Element":["Wind","Earth","Moon"],"Class":["Mage","Priest"],"Rarity":[3,4,5],"Event":["None"],"Series":"K-ON!","Release Year":2018,"Number of Cards":3},
+			{"Name":"Hirasawa Ui","Element":["Sun"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"K-ON!","Release Year":2018,"Number of Cards":1},
+			{"Name":"Yamanaka Sawako","Element":["Fire"],"Class":["Warrior"],"Rarity":[5],"Event":["None"],"Series":"K-ON!","Release Year":2022,"Number of Cards":1},
+			{"Name":"Shima Rin","Element":["Water","Fire","Wind","Moon"],"Class":["Warrior","Mage","Priest"],"Rarity":[4,5],"Event":["Traveler of the Wasteland","White Day"],"Series":"Yuru Camp","Release Year":2018,"Number of Cards":4},
+			{"Name":"Kagamihara Nadeshiko","Element":["Water","Fire","Wind","Sun","Moon"],"Class":["Warrior","Mage","Knight","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit","Valentine"],"Series":"Yuru Camp","Release Year":2018,"Number of Cards":5},
+			{"Name":"Oogaki Chiaki","Element":["Water","Wind"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Yuru Camp","Release Year":2018,"Number of Cards":2},
+			{"Name":"Inuyama Aoi","Element":["Water","Wind","Earth"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Yuru Camp","Release Year":2018,"Number of Cards":3},
+			{"Name":"Saitou Ena","Element":["Water","Moon"],"Class":["Knight","Alchemist"],"Rarity":[4,5],"Event":["Tanabata"],"Series":"Yuru Camp","Release Year":2018,"Number of Cards":2},
+			{"Name":"Ayano","Element":["Wind"],"Class":["Mage"],"Rarity":[5],"Event":["New Year"],"Series":"Yuru Camp","Release Year":2021,"Number of Cards":1},
+			{"Name":"Rin (Grown-up)","Element":["Wind"],"Class":["Alchemist"],"Rarity":[5],"Event":["Grown-up"],"Series":"Yuru Camp","Release Year":2022,"Number of Cards":1},
+			{"Name":"Moeta Kaoruko","Element":["Water","Wind","Earth","Moon"],"Class":["Warrior","Priest","Knight","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit","Christmas","Part 2"],"Series":"Comic Girls","Release Year":2018,"Number of Cards":5},
+			{"Name":"Koizuka Koyume","Element":["Earth","Sun","Moon"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Comic Girls","Release Year":2018,"Number of Cards":3},
+			{"Name":"Irokawa Ruki","Element":["Water","Wind","Earth","Moon"],"Class":["Mage","Knight","Alchemist"],"Rarity":[4,5],"Event":["Christmas","Bridal"],"Series":"Comic Girls","Release Year":2018,"Number of Cards":4},
+			{"Name":"Katsuki Tsubasa","Element":["Water","Moon"],"Class":["Warrior","Mage"],"Rarity":[4,5],"Event":["Tanabata"],"Series":"Comic Girls","Release Year":2018,"Number of Cards":2},
+			{"Name":"Fuura","Element":["Fire","Moon"],"Class":["Priest","Alchemist"],"Rarity":[4,5],"Event":["Halloween","Hot Springs"],"Series":"Comic Girls","Release Year":2019,"Number of Cards":2},
+			{"Name":"Irokawa Miki","Element":["Sun"],"Class":["Mage"],"Rarity":[4],"Event":["None"],"Series":"Comic Girls","Release Year":2020,"Number of Cards":1},
+			{"Name":"Nijino Miharu","Element":["Moon"],"Class":["Warrior"],"Rarity":[5],"Event":["None"],"Series":"Comic Girls","Release Year":2021,"Number of Cards":1},
+			{"Name":"Mayu","Element":["Earth"],"Class":["Knight"],"Rarity":[5],"Event":["Part 2"],"Series":"Comic Girls","Release Year":2022,"Number of Cards":1},
+			{"Name":"Yamaguchi Kisaragi","Element":["Water","Earth"],"Class":["Priest","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"GA Geijutsuka Art Design Class","Release Year":2019,"Number of Cards":3},
+			{"Name":"Noda Miki","Element":["Fire","Earth"],"Class":["Mage","Priest"],"Rarity":[4,5],"Event":["Halloween"],"Series":"GA Geijutsuka Art Design Class","Release Year":2019,"Number of Cards":2},
+			{"Name":"Tomokane","Element":["Fire"],"Class":["Warrior"],"Rarity":[4],"Event":["None"],"Series":"GA Geijutsuka Art Design Class","Release Year":2019,"Number of Cards":1},
+			{"Name":"Oomichi Miyabi","Element":["Earth","Moon"],"Class":["Warrior","Alchemist"],"Rarity":[4,5],"Event":["Tanabata"],"Series":"GA Geijutsuka Art Design Class","Release Year":2019,"Number of Cards":2},
+			{"Name":"Nozaki Namiko","Element":["Water","Wind"],"Class":["Knight"],"Rarity":[4,5],"Event":["Part 2"],"Series":"GA Geijutsuka Art Design Class","Release Year":2019,"Number of Cards":2},
+			{"Name":"Merry Nightmare","Element":["Water","Fire","Wind","Earth","Moon"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Swimsuit","Christmas","Valentine","Hello Kitty"],"Series":"Yumekui Merry","Release Year":2018,"Number of Cards":8},
+			{"Name":"Tachibana Isana","Element":["Water","Wind","Sun"],"Class":["Mage","Priest"],"Rarity":[4,5],"Event":["Hinamatsuri"],"Series":"Yumekui Merry","Release Year":2018,"Number of Cards":3},
+			{"Name":"Engi Threepiece","Element":["Fire","Moon"],"Class":["Warrior","Knight"],"Rarity":[4,5],"Event":["Sports Festival"],"Series":"Yumekui Merry","Release Year":2020,"Number of Cards":2},
+			{"Name":"Yui Kounagi","Element":["Sun","Moon"],"Class":["Warrior","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Yumekui Merry","Release Year":2020,"Number of Cards":2},
+			{"Name":"Clione","Element":["Earth"],"Class":["Alchemist"],"Rarity":[5],"Event":["Christmas"],"Series":"Yumekui Merry","Release Year":2021,"Number of Cards":1},
+			{"Name":"Sekiya Naru","Element":["Earth","Sun"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Hanayamata","Release Year":2018,"Number of Cards":2},
+			{"Name":"Hana N. Fountainstand","Element":["Sun","Moon"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Hanayamata","Release Year":2018,"Number of Cards":2},
+			{"Name":"Sasame Yaya","Element":["Water"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Hanayamata","Release Year":2018,"Number of Cards":1},
+			{"Name":"Nishimikado Tami","Element":["Sun"],"Class":["Warrior"],"Rarity":[5],"Event":["None"],"Series":"Hanayamata","Release Year":2020,"Number of Cards":1},
+			{"Name":"Machi Tokiwa","Element":["Sun"],"Class":["Alchemist"],"Rarity":[5],"Event":["None"],"Series":"Hanayamata","Release Year":2021,"Number of Cards":1},
+			{"Name":"Hanakoizumi Anne","Element":["Water","Fire","Sun","Moon"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[4,5],"Event":["Christmas","Kuromi","Bridal"],"Series":"Anne Happy","Release Year":2018,"Number of Cards":5},
+			{"Name":"Hibarigaoka Ruri","Element":["Water","Moon"],"Class":["Mage","Priest"],"Rarity":[4,5],"Event":["Hot Springs"],"Series":"Anne Happy","Release Year":2018,"Number of Cards":3},
+			{"Name":"Kumegawa Botan","Element":["Earth","Moon"],"Class":["Mage","Priest"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Anne Happy","Release Year":2018,"Number of Cards":3},
+			{"Name":"Hibiki","Element":["Moon"],"Class":["Warrior"],"Rarity":[5],"Event":["Valentine"],"Series":"Anne Happy","Release Year":2020,"Number of Cards":1},
+			{"Name":"Ekoda Ren","Element":["Water","Fire"],"Class":["Warrior","Alchemist"],"Rarity":[4,5],"Event":["Valentine"],"Series":"Anne Happy","Release Year":2020,"Number of Cards":2},
+			{"Name":"Sayama Tsubaki","Element":["Earth","Moon"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Maid"],"Series":"Anne Happy","Release Year":2020,"Number of Cards":2},
+			{"Name":"Oozora Haruka","Element":["Water","Fire","Earth"],"Class":["Warrior","Priest","Knight"],"Rarity":[4,5],"Event":["Swimsuit","Hot Springs"],"Series":"Harukana Receive","Release Year":2018,"Number of Cards":4},
+			{"Name":"Higa Kanata","Element":["Water","Fire","Sun"],"Class":["Mage","Priest","Alchemist"],"Rarity":[4,5],"Event":["Hot Springs","Bridal"],"Series":"Harukana Receive","Release Year":2018,"Number of Cards":4},
+			{"Name":"Thomas Claire","Element":["Earth","Sun","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[4,5],"Event":["Halloween","Hot Springs"],"Series":"Harukana Receive","Release Year":2018,"Number of Cards":3},
+			{"Name":"Thomas Emily","Element":["Water","Earth"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Harukana Receive","Release Year":2018,"Number of Cards":2},
+			{"Name":"Ooshiro Akari","Element":["Fire"],"Class":["Alchemist"],"Rarity":[4],"Event":["None"],"Series":"Harukana Receive","Release Year":2019,"Number of Cards":1},
+			{"Name":"Narumi Tooi","Element":["Fire"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Harukana Receive","Release Year":2020,"Number of Cards":1},
+			{"Name":"Ayasa Tachibana","Element":["Fire","Sun"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Harukana Receive","Release Year":2020,"Number of Cards":2},
+			{"Name":"Hoto Cocoa","Element":["Water","Fire","Wind","Earth"],"Class":["Warrior","Mage","Priest","Alchemist"],"Rarity":[4,5],"Event":["Christmas","Swimsuit","Part 2"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2018,"Number of Cards":5},
+			{"Name":"Kafuu Chino","Element":["Water","Earth","Sun"],"Class":["Warrior","Mage","Knight"],"Rarity":[4,5],"Event":["Swimsuit","Part 2"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2018,"Number of Cards":4},
+			{"Name":"Tedeza Rize","Element":["Water","Earth","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[4,5],"Event":["Halloween","Swimsuit"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2019,"Number of Cards":4},
+			{"Name":"Ujimatsu Chiya","Element":["Fire","Wind"],"Class":["Mage","Priest"],"Rarity":[4,5],"Event":["Christmas"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2019,"Number of Cards":3},
+			{"Name":"Kirima Syaro","Element":["Fire","Wind","Earth","Moon"],"Class":["Mage","Priest","Alchemist"],"Rarity":[4,5],"Event":["Halloween","Swimsuit"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2019,"Number of Cards":4},
+			{"Name":"Maya","Element":["Water","Sun"],"Class":["Warrior"],"Rarity":[4,5],"Event":["None"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2019,"Number of Cards":2},
+			{"Name":"Megu","Element":["Water","Sun"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2019,"Number of Cards":2},
+			{"Name":"Mocha","Element":["Wind"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2020,"Number of Cards":1},
+			{"Name":"Aoyama-san","Element":["Water"],"Class":["Priest"],"Rarity":[5],"Event":["New Year"],"Series":"Gochuumon wa Usagi Desu ka?","Release Year":2021,"Number of Cards":1},
+			{"Name":"Hatoya Kohane","Element":["Fire","Sun"],"Class":["Mage","Priest"],"Rarity":[4,5],"Event":["Bridal"],"Series":"Anima Yell!","Release Year":2018,"Number of Cards":3},
+			{"Name":"Arima Hizume","Element":["Fire","Wind","Moon"],"Class":["Mage","Knight","Alchemist"],"Rarity":[4,5],"Event":["Valentine","Maid"],"Series":"Anima Yell!","Release Year":2018,"Number of Cards":4},
+			{"Name":"Sawatari Uki","Element":["Fire","Wind"],"Class":["Warrior","Alchemist"],"Rarity":[4,5],"Event":["Tanabata"],"Series":"Anima Yell!","Release Year":2018,"Number of Cards":3},
+			{"Name":"Tatejima Kotetsu","Element":["Water","Earth"],"Class":["Warrior","Mage","Alchemist"],"Rarity":[4,5],"Event":["Christmas","Swimsuit"],"Series":"Anima Yell!","Release Year":2019,"Number of Cards":3},
+			{"Name":"Ushiku Kana","Element":["Wind","Sun","Moon"],"Class":["Warrior","Mage","Priest"],"Rarity":[4,5],"Event":["White Day","Hot Springs"],"Series":"Anima Yell!","Release Year":2019,"Number of Cards":3},
+			{"Name":"Inaba Towa","Element":["Moon"],"Class":["Alchemist"],"Rarity":[4],"Event":["None"],"Series":"Anima Yell!","Release Year":2020,"Number of Cards":1},
+			{"Name":"Kirara","Element":["Sun"],"Class":["Mage","Priest","Knight"],"Rarity":[5],"Event":["Manga ver.","Cross Character","Part 2"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":3},
+			{"Name":"Lamp","Element":["Sun"],"Class":["Warrior","Mage","Priest","Knight","Alchemist"],"Rarity":[4,5],"Event":["Sports Festival","Swimsuit","Tanabata","Cross Character","Part 2"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":6},
+			{"Name":"Clea","Element":["Water"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit","Hinamatsuri","Manga ver.","Bridal"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":4},
+			{"Name":"Polka","Element":["Fire","Earth","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[4,5],"Event":["Swimsuit","Cross Character","Easter"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":4},
+			{"Name":"Cork","Element":["Fire","Wind","Earth"],"Class":["Warrior","Mage","Priest","Alchemist"],"Rarity":[5],"Event":["Maid","Cross Character","Tanabata"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":4},
+			{"Name":"Kanna","Element":["Moon"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Kirara Fantasia","Release Year":2020,"Number of Cards":1},
+			{"Name":"Leine","Element":["Sun"],"Class":["Warrior","Knight","Alchemist"],"Rarity":[4,5],"Event":["New Year","Hot Springs"],"Series":"Kirara Fantasia","Release Year":2020,"Number of Cards":3},
+			{"Name":"Sola","Element":["Moon"],"Class":["Priest"],"Rarity":[5],"Event":["Cross Character"],"Series":"Kirara Fantasia","Release Year":2021,"Number of Cards":1},
+			{"Name":"Archive","Element":["Moon"],"Class":["Warrior","Mage","Priest","Alchemist"],"Rarity":[5],"Event":["New Year","Cross Character","Hot Springs"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":4},
+			{"Name":"Sugar","Element":["Earth"],"Class":["Warrior","Mage"],"Rarity":[5],"Event":["Valentine"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":2},
+			{"Name":"Sesame","Element":["Water"],"Class":["Mage","Priest","Alchemist"],"Rarity":[5],"Event":["Bridal","Part 2"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":3},
+			{"Name":"Cardamom","Element":["Fire"],"Class":["Warrior","Priest"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2020,"Number of Cards":2},
+			{"Name":"Salt","Element":["Wind"],"Class":["Warrior","Mage"],"Rarity":[5],"Event":["White Day"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":2},
+			{"Name":"Ginger","Element":["Sun"],"Class":["Warrior","Priest"],"Rarity":[5],"Event":["Maid"],"Series":"Kirara Fantasia","Release Year":2019,"Number of Cards":2},
+			{"Name":"Fennel","Element":["Moon"],"Class":["Warrior","Knight"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2020,"Number of Cards":2},
+			{"Name":"Hakka","Element":["Moon"],"Class":["Warrior","Mage"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2020,"Number of Cards":2},
+			{"Name":"Media","Element":["Moon"],"Class":["Mage"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2022,"Number of Cards":1},
+			{"Name":"Utsutsu","Element":["Moon"],"Class":["Knight","Alchemist"],"Rarity":[5],"Event":["Part 2","Swimsuit"],"Series":"Kirara Fantasia","Release Year":2022,"Number of Cards":2},
+			{"Name":"Enishida","Element":["Fire"],"Class":["Alchemist"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2022,"Number of Cards":1},
+			{"Name":"Highpris","Element":["Sun"],"Class":["Priest"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2022,"Number of Cards":1},
+			{"Name":"Sunstone","Element":["Moon"],"Class":["Warrior"],"Rarity":[5],"Event":["Part 2"],"Series":"Kirara Fantasia","Release Year":2022,"Number of Cards":1},
+			{"Name":"Nishikawa Youko","Element":["Wind","Moon"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["New Year"],"Series":"Sansha Sanyou","Release Year":2019,"Number of Cards":3},
+			{"Name":"Odagiri Futaba","Element":["Water","Fire","Wind"],"Class":["Warrior","Priest","Knight"],"Rarity":[4,5],"Event":["Christmas","Swimsuit"],"Series":"Sansha Sanyou","Release Year":2019,"Number of Cards":3},
+			{"Name":"Hayama Teru","Element":["Wind","Sun"],"Class":["Alchemist"],"Rarity":[4,5],"Event":["None"],"Series":"Sansha Sanyou","Release Year":2019,"Number of Cards":2},
+			{"Name":"Nishiyama Serina","Element":["Wind","Earth"],"Class":["Warrior","Knight"],"Rarity":[4,5],"Event":["Maid"],"Series":"Sansha Sanyou","Release Year":2020,"Number of Cards":2},
+			{"Name":"Sonobe","Element":["Wind","Sun"],"Class":["Warrior","Knight"],"Rarity":[5],"Event":["Gudetama","Easter"],"Series":"Sansha Sanyou","Release Year":2020,"Number of Cards":2},
+			{"Name":"Kondou","Element":["Wind"],"Class":["Alchemist"],"Rarity":[4],"Event":["Maid"],"Series":"Sansha Sanyou","Release Year":2021,"Number of Cards":1},
+			{"Name":"Hayama Kou","Element":["Fire","Wind"],"Class":["Mage","Knight"],"Rarity":[4,5],"Event":["Tanabata"],"Series":"Sansha Sanyou","Release Year":2022,"Number of Cards":2},
+			{"Name":"Kuro","Element":["Earth","Moon"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Halloween"],"Series":"Hitsugi Katsugi no Kuro ~Kaichuu Tabi no Wa~","Release Year":2019,"Number of Cards":3},
+			{"Name":"Yoshida Yuuko","Element":["Sun","Moon"],"Class":["Warrior","Priest"],"Rarity":[4,5],"Event":["Sports Festival"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":3},
+			{"Name":"Chiyoda Momo","Element":["Sun","Moon"],"Class":["Warrior","Mage"],"Rarity":[4,5],"Event":["Christmas"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":3},
+			{"Name":"Lilith","Element":["Earth","Moon"],"Class":["Mage"],"Rarity":[4,5],"Event":["Part 2"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":2},
+			{"Name":"Hinatsuki Mikan","Element":["Wind","Sun"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Machikado Mazoku","Release Year":2019,"Number of Cards":2},
+			{"Name":"Ryoko","Element":["Water","Earth"],"Class":["Alchemist"],"Rarity":[4,5],"Event":["Hinamatsuri","Swimsuit"],"Series":"Machikado Mazoku","Release Year":2020,"Number of Cards":2},
+			{"Name":"Hosono Harumi","Element":["Fire","Earth","Sun"],"Class":["Warrior","Priest","Knight"],"Rarity":[4,5],"Event":["Swimsuit","Hot Springs"],"Series":"Harumination","Release Year":2020,"Number of Cards":3},
+			{"Name":"Sakamoto Kaju","Element":["Earth"],"Class":["Priest"],"Rarity":[4],"Event":["None"],"Series":"Harumination","Release Year":2021,"Number of Cards":1},
+			{"Name":"Takahashi Yuki","Element":["Earth"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Harumination","Release Year":2021,"Number of Cards":1},
+			{"Name":"Arumi","Element":["Water"],"Class":["Alchemist"],"Rarity":[4],"Event":["Bridal"],"Series":"Harumination","Release Year":2021,"Number of Cards":1},
+			{"Name":"Machiko Ryou","Element":["Water","Fire","Earth"],"Class":["Priest","Knight","Alchemist"],"Rarity":[5],"Event":["Swimsuit","New Year"],"Series":"Koufuku Graffiti","Release Year":2020,"Number of Cards":3},
+			{"Name":"Morino Kirin","Element":["Fire","Moon"],"Class":["Warrior","Knight"],"Rarity":[4,5],"Event":["Sports Festival"],"Series":"Koufuku Graffiti","Release Year":2020,"Number of Cards":3},
+			{"Name":"Shiina","Element":["Fire","Earth"],"Class":["Mage","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Koufuku Graffiti","Release Year":2020,"Number of Cards":3},
+			{"Name":"Uchiki Yuki","Element":["Fire"],"Class":["Priest"],"Rarity":[5],"Event":["None"],"Series":"Koufuku Graffiti","Release Year":2021,"Number of Cards":1},
+			{"Name":"Konohata Mira","Element":["Wind","Earth","Moon"],"Class":["Priest","Alchemist"],"Rarity":[4,5],"Event":["Valentine"],"Series":"Koisuru Asteroid","Release Year":2020,"Number of Cards":3},
+			{"Name":"Manaka Ao","Element":["Fire","Earth","Moon"],"Class":["Mage","Priest","Knight"],"Rarity":[4,5],"Event":["White Day","Tanabata"],"Series":"Koisuru Asteroid","Release Year":2020,"Number of Cards":3},
+			{"Name":"Inose Mai","Element":["Fire","Earth"],"Class":["Warrior","Knight"],"Rarity":[4,5],"Event":["Halloween"],"Series":"Koisuru Asteroid","Release Year":2020,"Number of Cards":2},
+			{"Name":"Sakura","Element":["Earth"],"Class":["Mage"],"Rarity":[5],"Event":["Swimsuit"],"Series":"Koisuru Asteroid","Release Year":2021,"Number of Cards":1},
+			{"Name":"Monroe","Element":["Earth"],"Class":["Alchemist"],"Rarity":[4,5],"Event":["Swimsuit","Hot Springs"],"Series":"Koisuru Asteroid","Release Year":2021,"Number of Cards":2},
+			{"Name":"Takeda Yomi","Element":["Wind","Sun"],"Class":["Mage"],"Rarity":[4,5],"Event":["None"],"Series":"Tamayomi","Release Year":2020,"Number of Cards":2},
+			{"Name":"Yamazaki Tamaki","Element":["Fire"],"Class":["Knight"],"Rarity":[4],"Event":["None"],"Series":"Tamayomi","Release Year":2020,"Number of Cards":1},
+			{"Name":"Kawaguchi Yoshino","Element":["Wind"],"Class":["Alchemist"],"Rarity":[5],"Event":["None"],"Series":"Tamayomi","Release Year":2021,"Number of Cards":1},
+			{"Name":"Nakamura Nozomi","Element":["Wind"],"Class":["Warrior"],"Rarity":[5],"Event":["None"],"Series":"Tamayomi","Release Year":2021,"Number of Cards":1},
+			{"Name":"Sakura Ino","Element":["Moon"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Ochikobore Fruit Tart","Release Year":2020,"Number of Cards":1},
+			{"Name":"Sekino Roko","Element":["Water","Moon"],"Class":["Warrior","Mage"],"Rarity":[4,5],"Event":["Valentine"],"Series":"Ochikobore Fruit Tart","Release Year":2020,"Number of Cards":2},
+			{"Name":"Nukui Hayu ","Element":["Fire","Moon"],"Class":["Warrior","Priest"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Ochikobore Fruit Tart","Release Year":2020,"Number of Cards":2},
+			{"Name":"Maehara Nina ","Element":["Earth","Moon"],"Class":["Priest","Alchemist"],"Rarity":[4,5],"Event":["White Day"],"Series":"Ochikobore Fruit Tart","Release Year":2020,"Number of Cards":2},
+			{"Name":"Hemo Midori","Element":["Moon"],"Class":["Mage"],"Rarity":[5],"Event":["None"],"Series":"Ochikobore Fruit Tart","Release Year":2021,"Number of Cards":1},
+			{"Name":"Miniwa Tsumiki ","Element":["Wind","Earth"],"Class":["Warrior","Priest"],"Rarity":[4,5],"Event":["New Year"],"Series":"Acchi Kocchi","Release Year":2021,"Number of Cards":2},
+			{"Name":"Haruno Hime ","Element":["Sun"],"Class":["Priest"],"Rarity":[4],"Event":["None"],"Series":"Acchi Kocchi","Release Year":2020,"Number of Cards":1},
+			{"Name":"Katase Mayoi ","Element":["Earth","Moon"],"Class":["Mage"],"Rarity":[4,5],"Event":["None"],"Series":"Acchi Kocchi","Release Year":2020,"Number of Cards":2},
+			{"Name":"Sakuragawa Kikue","Element":["Wind"],"Class":["Knight"],"Rarity":[4],"Event":["Easter"],"Series":"Acchi Kocchi","Release Year":2021,"Number of Cards":1},
+			{"Name":"Shinohana Mayu","Element":["Water","Earth"],"Class":["Knight","Alchemist"],"Rarity":[4,5],"Event":["None"],"Series":"Power of Smile.","Release Year":2022,"Number of Cards":2},
+			{"Name":"Kodou Tamaki","Element":["Water","Fire"],"Class":["Warrior"],"Rarity":[4,5],"Event":["Easter"],"Series":"Power of Smile.","Release Year":2020,"Number of Cards":2},
+			{"Name":"Souenji Miku","Element":["Fire"],"Class":["Priest"],"Rarity":[5],"Event":["None"],"Series":"Power of Smile.","Release Year":2021,"Number of Cards":1},
+			{"Name":"Onosaka Koharu","Element":["Water","Moon"],"Class":["Knight","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Koharu Biyori","Release Year":2021,"Number of Cards":2},
+			{"Name":"Tachibana Nina","Element":["Water","Moon"],"Class":["Priest"],"Rarity":[4,5],"Event":["None"],"Series":"Koharu Biyori","Release Year":2020,"Number of Cards":2},
+			{"Name":"Kitazawa Misaki","Element":["Fire"],"Class":["Mage"],"Rarity":[4],"Event":["None"],"Series":"Koharu Biyori","Release Year":2021,"Number of Cards":1},
+			{"Name":"Makinose Himari","Element":["Wind"],"Class":["Warrior"],"Rarity":[4],"Event":["None"],"Series":"Koharu Biyori","Release Year":2021,"Number of Cards":1},
+			{"Name":"Saori","Element":["Moon"],"Class":["Mage"],"Rarity":[5],"Event":["Tanabata"],"Series":"Koharu Biyori","Release Year":2022,"Number of Cards":1},
+			{"Name":"Satonaka Chie","Element":["Sun"],"Class":["Priest"],"Rarity":[5],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
+			{"Name":"Shirai Reiko","Element":["Moon"],"Class":["Mage"],"Rarity":[5],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
+			{"Name":"Kurahashi Riko","Element":["Fire"],"Class":["Warrior"],"Rarity":[5],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
+			{"Name":"Maki Natsuo","Element":["Water"],"Class":["Alchemist"],"Rarity":[5],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
+			{"Name":"Komori Shuri","Element":["Moon"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
+			{"Name":"Nishitori Megumi","Element":["Sun"],"Class":["Mage"],"Rarity":[5],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
+			{"Name":"Negishi Masako","Element":["Moon"],"Class":["Alchemist"],"Rarity":[4],"Event":["None"],"Series":"Manga Time","Release Year":2021,"Number of Cards":1},
+			{"Name":"Kazairo Kotone","Element":["Fire"],"Class":["Mage"],"Rarity":[5],"Event":["None"],"Series":"RPG Real Estate","Release Year":2022,"Number of Cards":1},
+			{"Name":"Fa","Element":["Earth","Moon"],"Class":["Warrior","Alchemist"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"RPG Real Estate","Release Year":2022,"Number of Cards":2},
+			{"Name":"Rufuria","Element":["Wind"],"Class":["Priest"],"Rarity":[4],"Event":["None"],"Series":"RPG Real Estate","Release Year":2022,"Number of Cards":1},
+			{"Name":"Rakira","Element":["Wind"],"Class":["Warrior"],"Rarity":[4],"Event":["None"],"Series":"RPG Real Estate","Release Year":2022,"Number of Cards":1},
+			{"Name":"Gotoh Hitori","Element":["Moon"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Bocchi the Rock!","Release Year":2022,"Number of Cards":1},
+			{"Name":"Ijichi Nijika","Element":["Water"],"Class":["Priest"],"Rarity":[4],"Event":["None"],"Series":"Bocchi the Rock!","Release Year":2022,"Number of Cards":1},
+			{"Name":"Yamada Ryo","Element":["Earth"],"Class":["Alchemist"],"Rarity":[4],"Event":["None"],"Series":"Bocchi the Rock!","Release Year":2022,"Number of Cards":1},
+			{"Name":"Kita Ikuyo","Element":["Fire"],"Class":["Warrior"],"Rarity":[4],"Event":["None"],"Series":"Bocchi the Rock!","Release Year":2022,"Number of Cards":1},
+			{"Name":"Minagi Hiyori","Element":["Water"],"Class":["Knight"],"Rarity":[5],"Event":["None"],"Series":"Slow Loop","Release Year":2022,"Number of Cards":1},
+			{"Name":"Minagi Koharu","Element":["Water","Wind"],"Class":["Warrior","Priest"],"Rarity":[4,5],"Event":["Swimsuit"],"Series":"Slow Loop","Release Year":2022,"Number of Cards":2},
+			{"Name":"Yoshinaga Koi","Element":["Earth"],"Class":["Mage"],"Rarity":[4],"Event":["None"],"Series":"Slow Loop","Release Year":2022,"Number of Cards":1}
         ];
 
         let data = initialData.slice();
@@ -398,7 +396,6 @@
         let hintUsed = false; 
         const hintPriority = ['Element', 'Class', 'Event', 'Series', 'Release Year', 'Number of Cards', 'Rarity'];
         
-        // NEW: Variables for daily mode and score sharing
         let isDailyMode = false;
         let initialGuesses = 13;
         let gameWon = false;
@@ -628,7 +625,6 @@
             }
         }
 
-        // MODIFIED: Shows correct end-game button
         function endGame(message, isError = true) {
             setStatus(message, isError);
             document.getElementById('guessInput').disabled = true;
@@ -732,7 +728,43 @@
             }
         }
         
-        // NEW: Shows the share score modal
+        // MODIFIED: Generates the emoji grid for sharing with correct order and emojis
+        function generateEmojiGrid() {
+            const tbody = document.querySelector('#gameTable tbody');
+            // Get rows in document order (last guess is first)
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            let grid = '';
+
+            rows.forEach(row => {
+                let rowEmojis = '';
+                const cells = Array.from(row.cells);
+                const isHintRow = cells[0].textContent === 'Hint';
+
+                // Start from index 1 to skip the 'Name' column
+                for (let i = 1; i < cells.length; i++) {
+                    const cell = cells[i];
+                    if (isHintRow) {
+                        if (cell.classList.contains('status-match')) {
+                            rowEmojis += '🟩';
+                        } else {
+                            rowEmojis += '⬜';
+                        }
+                    } else {
+                        if (cell.classList.contains('status-match')) {
+                            rowEmojis += '🟩';
+                        } else if (cell.classList.contains('status-partial')) {
+                            rowEmojis += '🟨'; // Changed to yellow
+                        } else { // status-no-match
+                            rowEmojis += '🟥';
+                        }
+                    }
+                }
+                grid += rowEmojis + '\n';
+            });
+
+            return grid.trim();
+        }
+
         function showShareModal() {
             let shareTitle = document.getElementById('dailyMessageText').textContent;
             if (shareTitle.includes(' - ')) {
@@ -743,11 +775,16 @@
             const resultText = gameWon 
                 ? `Won today's Kirafan-dle with ${guessesUsed} guesses!`
                 : `Didn't manage to solve today's Kirafan-dle after ${initialGuesses} guesses!`;
+            
+            const emojiGrid = generateEmojiGrid();
 
-            const shareText = `${shareTitle}\n${resultText}`;
+            const shareText = `${shareTitle}\n${resultText}\n\n${emojiGrid}`;
             
             const shareScoreTextarea = document.getElementById('shareScoreText');
             shareScoreTextarea.value = shareText;
+            
+            shareScoreTextarea.style.height = 'auto';
+            shareScoreTextarea.style.height = (shareScoreTextarea.scrollHeight) + 'px';
             
             document.getElementById('shareModal').classList.remove('hidden');
         }
@@ -783,7 +820,6 @@
             populateDatalist(document.getElementById('guessInput').value);
         });
         
-        // NEW: Listeners for the Share Score modal
         document.getElementById('shareScoreBtn').addEventListener('click', showShareModal);
         document.getElementById('closeShareModalBtn').addEventListener('click', () => {
             document.getElementById('shareModal').classList.add('hidden');
@@ -791,17 +827,15 @@
         document.getElementById('copyScoreBtn').addEventListener('click', () => {
             const shareScoreTextarea = document.getElementById('shareScoreText');
             shareScoreTextarea.select();
-            shareScoreTextarea.setSelectionRange(0, 99999); // For mobile devices
+            shareScoreTextarea.setSelectionRange(0, 99999); 
             
             try {
-                // Use modern clipboard API if available
                 navigator.clipboard.writeText(shareScoreTextarea.value).then(() => {
                     const copyBtn = document.getElementById('copyScoreBtn');
                     copyBtn.textContent = 'Copied!';
                     setTimeout(() => { copyBtn.textContent = 'Copy to Clipboard'; }, 2000);
                 });
             } catch (err) {
-                // Fallback for older browsers
                 document.execCommand('copy');
                 const copyBtn = document.getElementById('copyScoreBtn');
                 copyBtn.textContent = 'Copied!';

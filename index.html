@@ -29,14 +29,18 @@
 
         <div class="game-controls p-4 border-b border-gray-200 mb-6">
             <div class="flex flex-col md:flex-row items-center gap-4 mb-2">
-                <div class="relative w-full md:w-auto flex-grow flex gap-4">
-                    <input type="text" id="guessInput" data-translate-key-placeholder="guess_placeholder" placeholder="Type in character name..." list="namesList" autocomplete="off"
-                        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <datalist id="namesList"></datalist>
-                    <button id="guessButton" type="button" data-translate-key="guess_button"
-                        class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors whitespace-nowrap">
-                        Guess
-                    </button>
+                <div class="relative w-full md:w-auto flex-grow">
+                    <div class="flex gap-4">
+                        <div class="relative flex-grow">
+                            <input type="text" id="guessInput" data-translate-key-placeholder="guess_placeholder" placeholder="Type in character name..." autocomplete="off"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <div id="suggestionsContainer" class="absolute z-10 w-full bg-white border border-gray-300 rounded-md mt-1 shadow-lg hidden max-h-60 overflow-y-auto"></div>
+                        </div>
+                        <button id="guessButton" type="button" data-translate-key="guess_button"
+                            class="bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors whitespace-nowrap">
+                            Guess
+                        </button>
+                    </div>
                 </div>
             </div>
             
@@ -148,7 +152,7 @@
         const classIcons = { Alchemist: 'https://i.imgur.com/M6QwBVL.png', Warrior: 'https://i.imgur.com/8jlTelp.png', Knight: 'https://i.imgur.com/IukPY4D.png', Mage: 'https://i.imgur.com/iPnkGXP.png', Priest: 'https://i.imgur.com/r2cEJih.png' };
         const gemIcon = 'https://i.imgur.com/n0199U5.png';
 
-        const initialData_en = [
+                const initialData_en = [
             {"id":"1","Name":"Yuno","Alias":[""],"Element":["Water","Wind","Sun"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","Swimsuit"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":6},
 			{"id":"2","Name":"Miyako","Alias":[""],"Element":["Fire","Earth","Sun","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[3,4,5],"Event":["Christmas"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":5},
 			{"id":"3","Name":"Hiro","Alias":[""],"Element":["Fire","Wind","Sun"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":4},
@@ -740,6 +744,7 @@
         let gameWon = false;
         let currentLang = 'en';
         let guessHistory = [];
+        let activeSuggestionIndex = -1;
 
         // --- CORE FUNCTIONS ---
         function setStatus(msgKey, isError = true, suggestions = []) {
@@ -775,12 +780,29 @@
                 });
             }
         }
+        
+        function updateSuggestionHighlight(suggestions) {
+            suggestions.forEach((suggestion, index) => {
+                if (index === activeSuggestionIndex) {
+                    suggestion.classList.add('bg-gray-200');
+                    suggestion.scrollIntoView({ block: 'nearest' });
+                } else {
+                    suggestion.classList.remove('bg-gray-200');
+                }
+            });
+        }
 
         function populateDatalist(filter = '') {
-            const dl = document.getElementById('namesList');
+            const suggestionsContainer = document.getElementById('suggestionsContainer');
+            const guessInput = document.getElementById('guessInput');
             const showSeries = document.getElementById('showSeriesCheckbox').checked;
-            dl.innerHTML = '';
-            if (filter.length < 1) return;
+            suggestionsContainer.innerHTML = '';
+            activeSuggestionIndex = -1;
+
+            if (filter.length < 1) {
+                suggestionsContainer.classList.add('hidden');
+                return;
+            }
 
             const addedNames = new Set();
             const lowerCaseFilter = filter.toLowerCase();
@@ -789,26 +811,38 @@
                 const mainDisplayName = showSeries ? `${c.Name} (${c.Series})` : c.Name;
                 let matchFound = false;
 
-                // Check if main name matches
                 if (c.Name.toLowerCase().includes(lowerCaseFilter)) {
                     matchFound = true;
                 }
 
-                // Check if any alias matches
                 if (!matchFound && c.Alias && Array.isArray(c.Alias)) {
                     if (c.Alias.some(alias => alias && alias.toLowerCase().includes(lowerCaseFilter))) {
                         matchFound = true;
                     }
                 }
 
-                // If a match was found (in name or alias), add the main display name to the list
                 if (matchFound && !addedNames.has(mainDisplayName)) {
-                    const opt = document.createElement('option');
-                    opt.value = mainDisplayName;
-                    dl.appendChild(opt);
+                    const suggestionDiv = document.createElement('div');
+                    suggestionDiv.textContent = mainDisplayName;
+                    suggestionDiv.className = 'p-2 hover:bg-gray-100 cursor-pointer';
+                    
+                    suggestionDiv.addEventListener('mousedown', (e) => {
+                        e.preventDefault(); 
+                        guessInput.value = mainDisplayName;
+                        suggestionsContainer.classList.add('hidden');
+                        suggestionsContainer.innerHTML = '';
+                    });
+
+                    suggestionsContainer.appendChild(suggestionDiv);
                     addedNames.add(mainDisplayName);
                 }
             });
+
+            if (addedNames.size > 0) {
+                suggestionsContainer.classList.remove('hidden');
+            } else {
+                suggestionsContainer.classList.add('hidden');
+            }
         }
 
         function pickSecret(characterId = null) {
@@ -1006,6 +1040,7 @@
                 return;
             }
             const input = document.getElementById('guessInput');
+            document.getElementById('suggestionsContainer').classList.add('hidden');
             let name = input.value.trim();
             if (!name) return;
             if (name.includes(' (')) {
@@ -1043,7 +1078,6 @@
                 return;
             }
             
-            // Store the stable ID in the history, not the index.
             guessHistory.push({type: 'guess', id: guess.id});
             addGuessRow(guess);
             guessesLeft--;
@@ -1128,12 +1162,8 @@
         function redrawTable() {
             const tbody = document.querySelector('#gameTable tbody');
             tbody.innerHTML = '';
-            // The guessHistory is already in chronological order (oldest to newest).
-            // Since addGuessRow() and addHintRow() both prepend to the table,
-            // we iterate through the history without reversing it to maintain the newest-on-top display.
             guessHistory.forEach(historyItem => {
                 if (historyItem.type === 'guess') {
-                    // Find the character by ID in the current language's data
                     const guess = data.find(c => c.id === historyItem.id);
                     if(guess) addGuessRow(guess);
                 } else if (historyItem.type === 'hint') {
@@ -1144,31 +1174,21 @@
 
         function applyLanguage(lang) {
             if (!translations[lang] || lang === currentLang) return;
-
-            // Find the secret's stable ID before switching
             const secretId = secret ? secret.id : -1;
-
-            // Update language and data
             currentLang = lang;
             localStorage.setItem('kirafanGuesserLang', lang);
             data = lang === 'ja' ? initialData_jp : initialData_en;
-
-            // Re-assign the secret using the stable ID
             if (secretId !== -1) {
                 secret = data.find(c => c.id === secretId);
             }
-
-            // Update the UI
             updateLanguageUI(lang);
             redrawTable();
         }
 
         function updateLanguageUI(lang) {
             document.documentElement.lang = lang;
-            
             const langEnBtn = document.getElementById('langEnBtn');
             const langJaBtn = document.getElementById('langJaBtn');
-            
             if (lang === 'en') {
                 langEnBtn.classList.add('bg-blue-500', 'text-white');
                 langEnBtn.classList.remove('bg-gray-200', 'text-gray-700');
@@ -1180,7 +1200,6 @@
                 langEnBtn.classList.add('bg-gray-200', 'text-gray-700');
                 langEnBtn.classList.remove('bg-blue-500', 'text-white');
             }
-
             document.querySelectorAll('[data-translate-key]').forEach(el => {
                 const key = el.dataset.translateKey;
                 const translation = translations[lang][key];
@@ -1202,8 +1221,49 @@
 
         // --- EVENT LISTENERS ---
         document.getElementById('guessButton').addEventListener('click', handleGuess);
-        document.getElementById('guessInput').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); handleGuess(); } });
         document.getElementById('guessInput').addEventListener('input', e => populateDatalist(e.target.value));
+        
+        document.getElementById('guessInput').addEventListener('keydown', e => {
+            const suggestionsContainer = document.getElementById('suggestionsContainer');
+            const suggestions = suggestionsContainer.querySelectorAll('div');
+
+            if (suggestions.length > 0 && !suggestionsContainer.classList.contains('hidden')) {
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    activeSuggestionIndex++;
+                    if (activeSuggestionIndex >= suggestions.length) activeSuggestionIndex = 0;
+                    updateSuggestionHighlight(suggestions);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    activeSuggestionIndex--;
+                    if (activeSuggestionIndex < 0) activeSuggestionIndex = suggestions.length - 1;
+                    updateSuggestionHighlight(suggestions);
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (activeSuggestionIndex > -1) {
+                        suggestions[activeSuggestionIndex].dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+                    } else {
+                        handleGuess();
+                    }
+                    activeSuggestionIndex = -1;
+                } else if (e.key === 'Escape') {
+                    suggestionsContainer.classList.add('hidden');
+                    activeSuggestionIndex = -1;
+                }
+            } else {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    handleGuess();
+                }
+            }
+        });
+
+        document.getElementById('guessInput').addEventListener('blur', () => {
+             setTimeout(() => {
+                document.getElementById('suggestionsContainer').classList.add('hidden');
+             }, 150);
+        });
+
         document.getElementById('difficulty').addEventListener('change', () => { localStorage.setItem('difficulty', document.getElementById('difficulty').value); initGameMode(); });
         document.getElementById('playAgainBtn').addEventListener('click', () => initGameMode());
         document.getElementById('hintButton').addEventListener('click', () => document.getElementById('hintModal').classList.remove('hidden'));
@@ -1235,7 +1295,7 @@
         const savedLang = localStorage.getItem('kirafanGuesserLang') || 'en';
         currentLang = savedLang;
         data = savedLang === 'ja' ? initialData_jp : initialData_en;
-        updateLanguageUI(savedLang); // Set UI on initial load
+        updateLanguageUI(savedLang);
         const savedDiff = localStorage.getItem('difficulty');
         if (savedDiff) document.getElementById('difficulty').value = savedDiff;
         initGameMode();

@@ -22,7 +22,7 @@
             <div id="dailyMessageContainer" style="display: none;" class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                 <p id="dailyMessageText" class="text-blue-800"></p>
                 <p class="text-sm text-gray-600 mt-2">
-                    <span data-translate-key="random_version_text">(You can also try the <a id="randomLink" href="https://anotherindex.github.io/kirafandle/index.html" class="text-blue-600 hover:underline" data-translate-key="random_version_link">fully random version</a>.)</span>
+                    <span data-translate-key="random_version_text">(You can also try the <a id="randomLink" href="#" class="text-blue-600 hover:underline" data-translate-key="random_version_link">fully random version</a>.)</span>
                 </p>
             </div>
         </header>
@@ -673,7 +673,7 @@
                 share_modal_title: "Share Your Score",
                 copy_button: "Copy to Clipboard",
                 copied_button: "Copied!",
-                random_version_text: "(You can also try the {link}",
+                random_version_text: "(You can also try the {link})",
                 random_version_link: "fully random version",
                 status_not_found: "Name not found.",
                 status_suggestions: "Name not found. Suggestions: ",
@@ -713,7 +713,7 @@
                 share_modal_title: "スコアを共有",
                 copy_button: "クリップボードにコピー",
                 copied_button: "コピーしました！",
-                random_version_text: "({link}もプレイできます",
+                random_version_text: "({link}もプレイできます。)",
                 random_version_link: "ランダムバージョン",
                 status_not_found: "名前が見つかりません。",
                 status_suggestions: "名前が見つかりません。候補： ",
@@ -780,30 +780,33 @@
             const dl = document.getElementById('namesList');
             const showSeries = document.getElementById('showSeriesCheckbox').checked;
             dl.innerHTML = '';
-            if (filter.length < 2) return;
+            if (filter.length < 1) return;
 
             const addedNames = new Set();
+            const lowerCaseFilter = filter.toLowerCase();
+
             data.forEach(c => {
                 const mainDisplayName = showSeries ? `${c.Name} (${c.Series})` : c.Name;
-                if (mainDisplayName.toLowerCase().includes(filter.toLowerCase()) && !addedNames.has(mainDisplayName)) {
+                let matchFound = false;
+
+                // Check if main name matches
+                if (c.Name.toLowerCase().includes(lowerCaseFilter)) {
+                    matchFound = true;
+                }
+
+                // Check if any alias matches
+                if (!matchFound && c.Alias && Array.isArray(c.Alias)) {
+                    if (c.Alias.some(alias => alias && alias.toLowerCase().includes(lowerCaseFilter))) {
+                        matchFound = true;
+                    }
+                }
+
+                // If a match was found (in name or alias), add the main display name to the list
+                if (matchFound && !addedNames.has(mainDisplayName)) {
                     const opt = document.createElement('option');
                     opt.value = mainDisplayName;
                     dl.appendChild(opt);
                     addedNames.add(mainDisplayName);
-                }
-
-                if (c.Alias && Array.isArray(c.Alias)) {
-                    c.Alias.forEach(alias => {
-                        if (alias && alias.toLowerCase() !== c.Name.toLowerCase()) {
-                            const aliasDisplayName = showSeries ? `${alias} (${c.Series})` : alias;
-                             if (aliasDisplayName.toLowerCase().includes(filter.toLowerCase()) && !addedNames.has(aliasDisplayName)) {
-                                const opt = document.createElement('option');
-                                opt.value = aliasDisplayName;
-                                dl.appendChild(opt);
-                                addedNames.add(aliasDisplayName);
-                            }
-                        }
-                    });
                 }
             });
         }
@@ -1125,7 +1128,10 @@
         function redrawTable() {
             const tbody = document.querySelector('#gameTable tbody');
             tbody.innerHTML = '';
-            [...guessHistory].reverse().forEach(historyItem => {
+            // The guessHistory is already in chronological order (oldest to newest).
+            // Since addGuessRow() and addHintRow() both prepend to the table,
+            // we iterate through the history without reversing it to maintain the newest-on-top display.
+            guessHistory.forEach(historyItem => {
                 if (historyItem.type === 'guess') {
                     // Find the character by ID in the current language's data
                     const guess = data.find(c => c.id === historyItem.id);

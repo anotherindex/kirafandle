@@ -132,7 +132,7 @@
         <div class="bg-white p-6 rounded-lg shadow-xl max-w-md mx-auto relative">
             <button id="closeShareModalBtn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
             <h3 class="text-lg font-semibold text-gray-800 mb-4">Share Your Score</h3>
-            <textarea id="shareScoreText" readonly class="w-full p-2 border border-gray-300 rounded-md bg-gray-50 min-h-[16rem]"></textarea>
+            <textarea id="shareScoreText" readonly class="w-full p-2 border border-gray-300 rounded-md bg-gray-50 min-h-[8rem]"></textarea>
             <button id="copyScoreBtn" class="mt-4 w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">Copy to Clipboard</button>
         </div>
     </div>
@@ -400,10 +400,36 @@
         let initialGuesses = 13;
         let gameWon = false;
 
-        function setStatus(msg, isError = true) {
+        // MODIFIED: Now handles creating clickable suggestion links
+        function setStatus(msg, isError = true, suggestions = []) {
             const s = document.getElementById('status');
-            s.textContent = msg || '';
+            s.innerHTML = ''; // Clear previous content
             s.className = isError ? 'text-red-600 font-medium' : 'text-green-600 font-medium';
+
+            const textNode = document.createTextNode(msg);
+            s.appendChild(textNode);
+
+            if (suggestions.length > 0) {
+                suggestions.forEach((suggestionName, index) => {
+                    const link = document.createElement('a');
+                    link.href = '#';
+                    link.textContent = suggestionName;
+                    link.className = 'ml-1 text-blue-600 hover:underline cursor-pointer';
+                    link.onclick = (e) => {
+                        e.preventDefault();
+                        const guessInput = document.getElementById('guessInput');
+                        guessInput.value = suggestionName;
+                        setStatus(''); // Clear the suggestions message
+                        guessInput.focus();
+                        populateDatalist(suggestionName);
+                    };
+                    s.appendChild(link);
+                    if (index < suggestions.length - 1) {
+                        const comma = document.createTextNode(', ');
+                        s.appendChild(comma);
+                    }
+                });
+            }
         }
 
         function populateDatalist(filter = '') {
@@ -638,6 +664,7 @@
             }
         }
 
+        // MODIFIED: Now passes suggestions to the setStatus function
         function handleGuess() {
             setStatus('');
             if (guessesLeft <= 0) {
@@ -661,7 +688,11 @@
             const guess = data.find(c => c.Name.toLowerCase() === name.toLowerCase());
             if (!guess) {
                 const suggestions = data.map(c => c.Name).filter(n => n.toLowerCase().includes(name.toLowerCase())).slice(0, 5);
-                setStatus('Name not found. Suggestions: ' + (suggestions.join(', ') || 'none'), true);
+                if (suggestions.length > 0) {
+                    setStatus('Name not found. Suggestions: ', true, suggestions);
+                } else {
+                    setStatus('Name not found.', true);
+                }
                 return;
             }
 
@@ -728,10 +759,8 @@
             }
         }
         
-        // MODIFIED: Generates the emoji grid for sharing with correct order and emojis
         function generateEmojiGrid() {
             const tbody = document.querySelector('#gameTable tbody');
-            // Get rows in document order (last guess is first)
             const rows = Array.from(tbody.querySelectorAll('tr'));
             let grid = '';
 
@@ -740,7 +769,6 @@
                 const cells = Array.from(row.cells);
                 const isHintRow = cells[0].textContent === 'Hint';
 
-                // Start from index 1 to skip the 'Name' column
                 for (let i = 1; i < cells.length; i++) {
                     const cell = cells[i];
                     if (isHintRow) {
@@ -753,8 +781,8 @@
                         if (cell.classList.contains('status-match')) {
                             rowEmojis += '🟩';
                         } else if (cell.classList.contains('status-partial')) {
-                            rowEmojis += '🟨'; // Changed to yellow
-                        } else { // status-no-match
+                            rowEmojis += '🟨';
+                        } else { 
                             rowEmojis += '🟥';
                         }
                     }

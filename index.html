@@ -152,7 +152,7 @@
         const classIcons = { Alchemist: 'https://i.imgur.com/M6QwBVL.png', Warrior: 'https://i.imgur.com/8jlTelp.png', Knight: 'https://i.imgur.com/IukPY4D.png', Mage: 'https://i.imgur.com/iPnkGXP.png', Priest: 'https://i.imgur.com/r2cEJih.png' };
         const gemIcon = 'https://i.imgur.com/n0199U5.png';
 
-        const initialData_en = [
+const initialData_en = [
             {"id":"1","Name":"Yuno","Alias":["Yunocchi"],"Element":["Water","Wind","Sun"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","Swimsuit"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":6},
 			{"id":"2","Name":"Miyako","Alias":[""],"Element":["Fire","Earth","Sun","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[3,4,5],"Event":["Christmas"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":5},
 			{"id":"3","Name":"Hiro","Alias":[""],"Element":["Fire","Wind","Sun"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":4},
@@ -811,16 +811,17 @@
                 const mainDisplayName = showSeries ? `${c.Name} (${c.Series})` : c.Name;
                 let matchFound = false;
 
-                if (c.Name.toLowerCase().includes(lowerCaseFilter)) {
+                // Check if the full display name (which might include the series) matches the filter
+                if (mainDisplayName.toLowerCase().includes(lowerCaseFilter)) {
                     matchFound = true;
                 }
 
-                if (!matchFound && c.Alias && Array.isArray(c.Alias)) {
-                    if (c.Alias.some(alias => alias && alias.toLowerCase().includes(lowerCaseFilter))) {
-                        matchFound = true;
-                    }
+                // Also check if an alias matches the filter
+                if (!matchFound && c.Alias && c.Alias.some(alias => alias && alias.toLowerCase().includes(lowerCaseFilter))) {
+                    matchFound = true;
                 }
 
+                // If a match was found, add the main display name to the suggestions
                 if (matchFound && !addedNames.has(mainDisplayName)) {
                     const suggestionDiv = document.createElement('div');
                     suggestionDiv.textContent = mainDisplayName;
@@ -1180,7 +1181,7 @@
             localStorage.setItem('kirafanGuesserLang', lang);
             data = lang === 'ja' ? initialData_jp : initialData_en;
             if (secretId !== -1) {
-                secret = data.find(c => c.id === secretId);
+                secret = data.find(c => c.id == secretId);
             }
             updateLanguageUI(lang);
             redrawTable();
@@ -1303,4 +1304,3 @@
     </script>
 </body>
 </html>
-🠀

@@ -10,34 +10,30 @@
 </head>
 <body class="bg-gray-100 font-sans">
     <div class="relative container mx-auto p-6 bg-white rounded-xl shadow-lg my-8 max-w-7xl">
-
-        <!-- Mode Button (Top-Left) -->
+        <!-- NEW: Current Mode Button (Top-Left) -->
         <div class="absolute top-4 left-4">
-            <a id="modeButton" href="./kirafandle.html"
+            <a id="modeButton" href="./daily.html"
                class="px-3 py-1 text-sm font-semibold border border-gray-300 rounded-md bg-gray-100 hover:bg-gray-200 transition-colors"
                data-translate-key="mode_button">
                Current Mode: Daily
             </a>
         </div>
 
-        <!-- Language Switcher (Top-Right) -->
+        <!-- Existing Language Switcher (Top-Right) -->
         <div class="absolute top-4 right-4 flex border border-gray-300 rounded-md">
             <button id="langEnBtn" class="px-3 py-1 text-sm font-semibold rounded-l-md">English</button>
             <button id="langJaBtn" class="px-3 py-1 text-sm font-semibold rounded-r-md">日本語</button>
         </div>
 
         <header class="text-center mb-6">
-            <h1 class="text-3xl font-bold text-gray-800"></h1>
-            <img class="header-image" src="https://i.imgur.com/8BKuTho.png" alt="Kirara Fantasia Character Guesser">
+            <h1 class="text-3xl font-bold text-gray-800"></h1><img class="header-image" src="https://i.imgur.com/8BKuTho.png" alt="Kirara Fantasia Character Guesser">
             <p id="subtitle" data-translate-key="subtitle" class="text-gray-600 mt-2">Try to guess the Kirara Fantasia character!</p>
-
-            <!-- NEW Daily Message Container -->
-            <div id="dailyMessageContainer" class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p class="text-green-800 font-semibold">
-                    <span data-translate-key="daily_date_label">Today's Date (JST):</span>
-                    <span id="dailyDateValue"></span>
+            
+            <div id="dailyMessageContainer" style="display: none;" class="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p id="dailyMessageText" class="text-blue-800"></p>
+                <p class="text-sm text-gray-600 mt-2">
+                    <span data-translate-key="random_version_text">(You can also try the <a id="randomLink" href="https://anotherindex.github.io/kirafandle/index.html" class="text-blue-600 hover:underline" data-translate-key="random_version_link">fully random version</a>.)</span>
                 </p>
-                <p id="dailyCountdown" class="text-sm text-gray-600 mt-1"></p>
             </div>
         </header>
 
@@ -67,30 +63,24 @@
                 <div id="status" role="status" aria-live="polite" class="text-red-600 font-medium"></div>
             </div>
 
-			<div class="flex justify-between items-center">
-				<div class="flex items-center text-gray-700 gap-4">
-					<button id="hintButton" type="button" data-translate-key="hint_button"
-						class="hidden bg-yellow-400 text-white font-bold py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors whitespace-nowrap">
-						Hint
-					</button>
-					<p>
-						<span data-translate-key="guesses_left_label">Guesses left:</span>
-						<span id="guessesLeft" class="font-bold"></span>
-					</p>
-					<div id="gems" class="ml-2 flex items-center"></div>
-				</div>
-				<div class="flex items-center gap-2">
-					<label for="difficulty" data-translate-key="difficulty_label"
-						class="text-gray-600 whitespace-nowrap">Difficulty:</label>
-					<select id="difficulty"
-						class="border border-gray-300 rounded-md px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-						<option value="13" data-translate-key="difficulty_easy">Easy</option>
-						<option value="10" data-translate-key="difficulty_medium" selected>Medium</option>
-						<option value="7" data-translate-key="difficulty_hard">Hard</option>
-					</select>
-				</div>
-			</div>
-
+            <div class="flex justify-between items-center">
+                <div class="flex items-center text-gray-700 gap-4">
+                    <button id="hintButton" type="button" data-translate-key="hint_button" class="hidden bg-yellow-400 text-white font-bold py-2 px-4 rounded-md hover:bg-yellow-500 transition-colors whitespace-nowrap">
+                        Hint
+                    </button>
+                    <p><span data-translate-key="guesses_left_label">Guesses left:</span> <span id="guessesLeft" class="font-bold"></span></p>
+                    <div id="gems" class="ml-2 flex items-center"></div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <label for="difficulty" data-translate-key="difficulty_label" class="text-gray-600 whitespace-nowrap">Difficulty:</label>
+                    <select id="difficulty"
+                        class="border border-gray-300 rounded-md px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="13" data-translate-key="difficulty_easy">Easy</option>
+                        <option value="10" data-translate-key="difficulty_medium">Medium</option>
+                        <option value="7" data-translate-key="difficulty_hard">Hard</option>
+                    </select>
+                </div>
+            </div>
 
             <button id="playAgainBtn"
                 class="hidden mt-4 w-full bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-green-600 transition-colors" data-translate-key="play_again_button">
@@ -136,7 +126,7 @@
                     <div class="w-4 h-4 bg-red-100 border border-red-500 rounded-sm"></div>
                     <span data-translate-key="legend_no_match" class="text-sm text-gray-600">No Match</span>
                 </div>
-                <!-- SVG Arrow Legend -->
+				<!-- SVG Arrow Legend -->
                 <div class="flex items-center gap-2">
                     <span class="text-sm text-gray-600 flex items-center"><img src="./images/arrow-down.svg" class="inline-block w-3 h-4 mr-1" alt="Lower"> <span data-translate-key="legend_lower">Value is lower</span></span>
                 </div>
@@ -173,7 +163,7 @@
         const classIcons = { Alchemist: 'https://i.imgur.com/M6QwBVL.png', Warrior: 'https://i.imgur.com/8jlTelp.png', Knight: 'https://i.imgur.com/IukPY4D.png', Mage: 'https://i.imgur.com/iPnkGXP.png', Priest: 'https://i.imgur.com/r2cEJih.png' };
         const gemIcon = 'https://i.imgur.com/n0199U5.png';
 
-		const initialData_en = [
+const initialData_en = [
             {"id":"1","Name":"Yuno","Alias":["Yunocchi"],"Element":["Water","Wind","Sun"],"Class":["Mage","Priest","Knight","Alchemist"],"Rarity":[3,4,5],"Event":["Christmas","Swimsuit"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":6},
 			{"id":"2","Name":"Miyako","Alias":[""],"Element":["Fire","Earth","Sun","Moon"],"Class":["Warrior","Mage","Knight"],"Rarity":[3,4,5],"Event":["Christmas"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":5},
 			{"id":"3","Name":"Hiro","Alias":[""],"Element":["Fire","Wind","Sun"],"Class":["Mage","Priest","Alchemist"],"Rarity":[3,4,5],"Event":["Valentine"],"Series":"Hidamari Sketch","Release Year":2017,"Number of Cards":4},
@@ -671,8 +661,6 @@
 			{"id":"246","Name":"吉永恋","Alias":["よしなが こい"],"Element":["Earth"],"Class":["Mage"],"Rarity":[4],"Event":["無し"],"Series":"スローループ","Release Year":2022,"Number of Cards":1}
         ];
         
-		const TOTAL_CHARACTERS = 246;
-		
         const translations = {
             en: {
                 subtitle: "Try to guess the Kirara Fantasia character!",
@@ -700,16 +688,13 @@
                 share_modal_title: "Share Your Score",
                 copy_button: "Copy to Clipboard",
                 copied_button: "Copied!",
-				mode_button: "Current Mode: Daily",
+				mode_button: "Current Mode: Standard",
                 random_version_text: "(You can also try the {link}",
                 random_version_link: "fully random version",
                 status_not_found: "Name not found.",
                 status_suggestions: "Name not found. Suggestions: ",
                 status_no_more_hints: "No more hints available!",
                 status_win: "Congratulations! You found the Correct Kirara Fantasia character.",
-				mode_button: "Current Mode: Daily",
-				daily_date_label: "Today's Date (JST):",
-				daily_next_label: "Next daily starts in",
                 status_lose: (name) => `Out of guesses. The Kirara Fantasia character you were looking for was: ${name}`,
                 share_win: (guesses) => `Won today's Kirafan-dle with ${guesses} guesses!`,
                 share_lose: (guesses) => `Didn't manage to solve today's Kirafan-dle after ${guesses} guesses!`,
@@ -743,17 +728,14 @@
 				no_button: "いいえ",
 				share_modal_title: "スコアを共有",
 				copy_button: "クリップボードにコピー",
-				mode_button: "現在のモード：デイリー",
 				copied_button: "コピーしました！",
+				mode_button: "現在のモード：標準", 
 				random_version_text: "({link}もプレイできます",
 				random_version_link: "ランダムバージョン",
 				status_not_found: "名前が見つかりません。",
 				status_suggestions: "名前が見つかりません。候補： ",
 				status_no_more_hints: "これ以上ヒントはありません！",
 				status_win: "おめでとうございます！正解のきららファンタジアキャラクターを見つけました。",
-				mode_button: "現在のモード：デイリー",
-				daily_date_label: "今日の日付（日本時間）:",
-				daily_next_label: "次の日替わり開始まで",				
 				status_lose: (name) => `予想回数がなくなりました。探していたきららファンタジアのキャラクターは${name}でした。`,
 				share_win: (guesses) => `今日のきらファンどるを${guesses}回の予想でクリアしました！`,
 				share_lose: (guesses) => `今日のきらファンどるは${guesses}回の予想でクリアできませんでした！`,
@@ -770,17 +752,15 @@
         let guessesLeft = 13;
         let hintUsed = false; 
         const hintPriority = ['Element', 'Class', 'Event', 'Series', 'Release Year', 'Number of Cards', 'Rarity'];
-        let isOldDailyMode = false;
+        let isDailyMode = false;
         let initialGuesses = 13;
         let gameWon = false;
         let currentLang = 'en';
         let guessHistory = [];
         let activeSuggestionIndex = -1;
-        let lastStatusKey = '';
 
         // --- CORE FUNCTIONS ---
         function setStatus(msgKey, isError = true, suggestions = []) {
-            lastStatusKey = msgKey;
             const s = document.getElementById('status');
             s.innerHTML = '';
             s.className = isError ? 'text-red-600 font-medium' : 'text-green-600 font-medium';
@@ -888,7 +868,7 @@
                 // Use loose equality (==) to allow matching between string and number types.
                 secret = data.find(c => c.id == characterId);
                 if (!secret) {
-                    console.warn(`OldDaily character with ID ${characterId} not found. Picking random.`);
+                    console.warn(`Daily character with ID ${characterId} not found. Picking random.`);
                     secret = data[Math.floor(Math.random() * data.length)];
                 }
             } else {
@@ -922,7 +902,6 @@
             hintUsed = false;
             gameWon = false;
             guessHistory = []; 
-            unlockDifficulty();
             updateGuessesUI();
             document.querySelector('#gameTable tbody').innerHTML = '';
             document.getElementById('guessInput').disabled = false;
@@ -970,7 +949,6 @@
             return rarityArr.map(r => r + '⭐').join(', ');
         }
 
-        // Updated function to return HTML with SVG images
         function formatWithArrows(guessVal, secretVal) {
             const baseStyle = 'inline-block w-3 h-4 mb-0.5 align-middle';
             if (guessVal > secretVal) return `${guessVal} <img src="./images/arrow-down.svg" class="${baseStyle}" alt="Lower">`;
@@ -992,7 +970,6 @@
                 if (key === 'Element') cell.appendChild(createIcons(gVal, elementIcons));
                 else if (key === 'Class') cell.appendChild(createIcons(gVal, classIcons));
                 else if (key === 'Rarity') cell.textContent = formatRarity(gVal);
-                // Use innerHTML to render the SVG images
                 else if (key === 'Release Year' || key === 'Number of Cards') cell.innerHTML = formatWithArrows(gVal, sVal);
                 else cell.textContent = Array.isArray(gVal) ? gVal.join(', ') : gVal;
                 cell.className = `px-4 py-3 whitespace-nowrap text-sm text-gray-900 status-${status}`;
@@ -1064,8 +1041,11 @@
             document.getElementById('guessInput').disabled = true;
             document.getElementById('guessButton').disabled = true;
             document.getElementById('hintButton').style.display = 'none';
-            document.getElementById('shareScoreBtn').style.display = 'block';
-            document.getElementById('playAgainBtn').style.display = 'none';
+            if (isDailyMode) {
+                document.getElementById('shareScoreBtn').style.display = 'block';
+            } else {
+                document.getElementById('playAgainBtn').style.display = 'block';
+            }
         }
 
         function handleGuess() {
@@ -1136,25 +1116,28 @@
 
         function initGameMode() {
             const urlParams = new URLSearchParams(window.location.search);
-            const oldDailyData = urlParams.get('daily');
-            isOldDailyMode = false;
-            // Removed oldDailyMessageContainer logic
-            if (oldDailyData) {
+            const dailyData = urlParams.get('daily');
+            isDailyMode = false;
+            document.getElementById('dailyMessageContainer').style.display = 'none';
+            if (dailyData) {
                 try {
-                    const decodedString = atob(oldDailyData);
+                    const decodedString = atob(dailyData);
                     const [idStr, message, checksum] = JSON.parse(decodedString);
                     if (calculateChecksum(idStr, message) !== checksum) throw new Error("Checksum mismatch");
                     const characterId = parseInt(idStr, 10);
                     if (isNaN(characterId)) throw new Error("Invalid character ID");
-                    isOldDailyMode = true;
-                    // Removed oldDailyMessageContainer logic
+                    isDailyMode = true;
+                    const dailyMessageContainer = document.getElementById('dailyMessageContainer');
+                    document.getElementById('dailyMessageText').textContent = message;
+                    document.getElementById('randomLink').href = window.location.origin + window.location.pathname;
+                    dailyMessageContainer.style.display = 'block';
                     resetGame(characterId);
                 } catch (error) {
                     console.error("Failed to parse daily data. Falling back to random mode.", error);
                     resetGame();
                 }
             } else {
-                // This is now part of loadDailyGame
+                resetGame();
             }
         }
         
@@ -1179,8 +1162,8 @@
         }
 
         function showShareModal() {
-            const dateStr = document.getElementById('dailyDateValue').textContent;
-            let shareTitle = `Kirafan-dle ${dateStr}`;
+            let shareTitle = document.getElementById('dailyMessageText').textContent;
+            if (shareTitle.includes(' - ')) shareTitle = shareTitle.split(' - ')[0].trim();
             const guessesUsed = initialGuesses - guessesLeft;
             const resultText = gameWon ? translations[currentLang].share_win(guessesUsed) : translations[currentLang].share_lose(initialGuesses);
             const emojiGrid = generateEmojiGrid();
@@ -1214,28 +1197,8 @@
             if (secretId !== -1) {
                 secret = data.find(c => c.id == secretId);
             }
-            applyTranslations(lang);
             updateLanguageUI(lang);
             redrawTable();
-            
-            // Regenerate status message on language change if game is over
-            const isGameOver = document.getElementById('guessInput').disabled;
-            if (isGameOver && (lastStatusKey === 'status_win' || lastStatusKey === 'status_lose')) {
-                const isError = lastStatusKey === 'status_lose';
-                setStatus(lastStatusKey, isError);
-            }
-        }
-		
-        function applyTranslations(lang) {
-            currentLang = lang;
-            document.querySelectorAll("[data-translate-key]").forEach(el => {
-                const key = el.getAttribute("data-translate-key");
-                if (translations[lang][key]) el.textContent = translations[lang][key];
-            });
-            // Update date + countdown labels immediately
-            document.getElementById("dailyDateValue").previousElementSibling.textContent =
-                translations[lang].daily_date_label;
-            updateCountdown();
         }
 
         function updateLanguageUI(lang) {
@@ -1271,122 +1234,6 @@
                 if (translations[lang][key]) el.placeholder = translations[lang][key];
             });
         }
-		
-        function getJapanDate() {
-            const now = new Date();
-            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-            return new Date(utc + (9 * 60 * 60000));
-        }
-
-        function formatJapanDate(date) {
-            const y = date.getFullYear();
-            const m = String(date.getMonth() + 1).padStart(2, '0');
-            const d = String(date.getDate()).padStart(2, '0');
-            return `${y}-${m}-${d}`;
-        }
-
-        function getDailySeededId(dateStr) {
-            let hash = 0;
-            for (let i = 0; i < dateStr.length; i++) {
-                hash = (hash * 31 + dateStr.charCodeAt(i)) & 0xffffffff;
-                hash ^= (hash >>> 16);
-            }
-            return (Math.abs(hash) % TOTAL_CHARACTERS) + 1;
-        }
-
-        function updateCountdown() {
-            const now = getJapanDate();
-            const tomorrow = new Date(now);
-            tomorrow.setHours(24, 0, 0, 0);
-            const diff = tomorrow - now;
-            const hrs = String(Math.floor(diff / (1000*60*60))).padStart(2, '0');
-            const mins = String(Math.floor((diff % (1000*60*60)) / (1000*60))).padStart(2, '0');
-            const secs = String(Math.floor((diff % (1000*60)) / 1000)).padStart(2, '0');
-            document.getElementById('dailyCountdown').textContent =
-                `${translations[currentLang].daily_next_label} ${hrs}:${mins}:${secs} (JST)`;
-        }
-
-        function loadDailyGame() {
-            const today = getJapanDate();
-            const dateStr = formatJapanDate(today);
-            const dailyId = getDailySeededId(dateStr);
-
-            // Show header info with translation
-            document.getElementById('dailyDateValue').textContent = dateStr;
-            updateCountdown();
-            setInterval(updateCountdown, 1000);
-
-            // Load state from localStorage
-            const saved = localStorage.getItem("kirafanDailyState");
-            let state = null;
-            if (saved) {
-                try {
-                    state = JSON.parse(saved);
-                    if (state.date !== dateStr) state = null;
-                } catch { state = null; }
-            }
-
-            if (state) {
-                guessesLeft = state.guessesLeft;
-                guessHistory = state.guessHistory;
-                gameWon = state.gameWon;
-                secret = data.find(c => c.id == state.secretId) || null;
-                updateGuessesUI();
-                redrawTable();
-                if (guessHistory.length > 0) lockDifficulty();
-            } else {
-                resetGame(dailyId);
-                saveDailyState(dateStr, dailyId);
-            }
-        }
-
-        function saveDailyState(dateStr, dailyId) {
-            const state = {
-                date: dateStr,
-                secretId: dailyId,
-                guessesLeft,
-                guessHistory,
-                gameWon
-            };
-            localStorage.setItem("kirafanDailyState", JSON.stringify(state));
-        }
-		
-		/* Difficulty lock/unlock */
-        function lockDifficulty() {
-            const difficultyDropdown = document.getElementById("difficulty");
-            difficultyDropdown.disabled = true;
-            difficultyDropdown.classList.add('bg-gray-200', 'cursor-not-allowed');
-        }
-        function unlockDifficulty() {
-            const difficultyDropdown = document.getElementById("difficulty");
-            difficultyDropdown.disabled = false;
-            difficultyDropdown.classList.remove('bg-gray-200', 'cursor-not-allowed');
-        }
-
-        // Hook into guess + hint actions to save progress
-        // Wrap guess + hint to save progress + lock difficulty
-        const origHandleGuess = handleGuess;
-        handleGuess = function() {
-            origHandleGuess();
-            const today = formatJapanDate(getJapanDate());
-            saveDailyState(today, secret ? secret.id : -1);
-            if (guessHistory.length > 0) lockDifficulty();
-        };
-
-        const origProvideHint = provideHint;
-        provideHint = function() {
-            origProvideHint();
-            const today = formatJapanDate(getJapanDate());
-            saveDailyState(today, secret ? secret.id : -1);
-            if (guessHistory.length > 0) lockDifficulty();
-        };
-
-        /* Init */
-        window.addEventListener("DOMContentLoaded", () => {
-            loadDailyGame();
-            applyTranslations(currentLang);
-        });
-		
 
         // --- EVENT LISTENERS ---
         document.getElementById('guessButton').addEventListener('click', handleGuess);
@@ -1433,14 +1280,7 @@
              }, 150);
         });
 
-        document.getElementById('difficulty').addEventListener('change', () => {
-            localStorage.setItem('difficulty', document.getElementById('difficulty').value);
-            const today = getJapanDate();
-            const dateStr = formatJapanDate(today);
-            const dailyId = getDailySeededId(dateStr);
-            resetGame(dailyId);
-            saveDailyState(dateStr, dailyId);
-        });
+        document.getElementById('difficulty').addEventListener('change', () => { localStorage.setItem('difficulty', document.getElementById('difficulty').value); initGameMode(); });
         document.getElementById('playAgainBtn').addEventListener('click', () => initGameMode());
         document.getElementById('hintButton').addEventListener('click', () => document.getElementById('hintModal').classList.remove('hidden'));
         document.getElementById('cancelHintBtn').addEventListener('click', () => document.getElementById('hintModal').classList.add('hidden'));
@@ -1474,6 +1314,7 @@
         updateLanguageUI(savedLang);
         const savedDiff = localStorage.getItem('difficulty');
         if (savedDiff) document.getElementById('difficulty').value = savedDiff;
+        initGameMode();
     </script>
 </body>
 </html>

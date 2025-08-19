@@ -1285,8 +1285,13 @@ const initialData_en = [
         document.getElementById('hintButton').addEventListener('click', () => document.getElementById('hintModal').classList.remove('hidden'));
         document.getElementById('cancelHintBtn').addEventListener('click', () => document.getElementById('hintModal').classList.add('hidden'));
         document.getElementById('confirmHintBtn').addEventListener('click', provideHint);
-        document.getElementById('showSeriesCheckbox').addEventListener('change', () => populateDatalist(document.getElementById('guessInput').value));
-        document.getElementById('shareScoreBtn').addEventListener('click', showShareModal);
+        document.getElementById('showSeriesCheckbox').addEventListener('change', () => {
+			// This line already exists
+			populateDatalist(document.getElementById('guessInput').value);
+			// Add this line to save the setting
+			localStorage.setItem('showSeriesInAutocomplete', document.getElementById('showSeriesCheckbox').checked);
+		});
+		document.getElementById('shareScoreBtn').addEventListener('click', showShareModal);
         document.getElementById('closeShareModalBtn').addEventListener('click', () => document.getElementById('shareModal').classList.add('hidden'));
         document.getElementById('copyScoreBtn').addEventListener('click', () => {
             const shareScoreTextarea = document.getElementById('shareScoreText');
@@ -1315,6 +1320,10 @@ const initialData_en = [
         const savedDiff = localStorage.getItem('difficulty');
         if (savedDiff) document.getElementById('difficulty').value = savedDiff;
         initGameMode();
+		const savedShowSeries = localStorage.getItem('showSeriesInAutocomplete');
+		if (savedShowSeries !== null) {
+			document.getElementById('showSeriesCheckbox').checked = (savedShowSeries === 'true');
+		}
     </script>
 </body>
 </html>

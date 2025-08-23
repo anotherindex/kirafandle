@@ -80,9 +80,9 @@
 					<div id="gems" class="ml-2 flex items-center"></div>
 				</div>
 				<div class="flex items-center gap-2">
-					<label for="difficulty" data-translate-key="difficulty_label"
+					<label for="daily_difficulty" data-translate-key="difficulty_label"
 						class="text-gray-600 whitespace-nowrap">Difficulty:</label>
-					<select id="difficulty"
+					<select id="daily_difficulty"
 						class="border border-gray-300 rounded-md px-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
 						<option value="13" data-translate-key="difficulty_easy">Easy</option>
 						<option value="10" data-translate-key="difficulty_medium" selected>Medium</option>
@@ -895,7 +895,7 @@
                 secret = data[Math.floor(Math.random() * data.length)];
             }
             console.log('Secret (debug):', secret.Name, `(ID: ${secret.id})`);
-        }
+		}
 
         function updateGuessesUI() {
             document.getElementById('guessesLeft').textContent = guessesLeft;
@@ -917,7 +917,7 @@
         }
 
         function resetGame(characterId = null) {
-            initialGuesses = parseInt(document.getElementById('difficulty').value, 10);
+            initialGuesses = parseInt(document.getElementById('daily_difficulty').value, 10);
             guessesLeft = initialGuesses;
             hintUsed = false;
             gameWon = false;
@@ -1285,14 +1285,33 @@
             return `${y}-${m}-${d}`;
         }
 
-        function getDailySeededId(dateStr) {
-            let hash = 0;
-            for (let i = 0; i < dateStr.length; i++) {
-                hash = (hash * 31 + dateStr.charCodeAt(i)) & 0xffffffff;
-                hash ^= (hash >>> 16);
-            }
-            return (Math.abs(hash) % TOTAL_CHARACTERS) + 1;
-        }
+		// --- new deterministic PRNG based on date string ---
+		function xmur3(str) {
+		  for (var h = 1779033703 ^ str.length, i = 0; i < str.length; i++) {
+			h = Math.imul(h ^ str.charCodeAt(i), 3432918353);
+			h = (h << 13) | (h >>> 19);
+		  }
+		  return function() {
+			h = Math.imul(h ^ (h >>> 16), 2246822507);
+			h = Math.imul(h ^ (h >>> 13), 3266489909);
+			return (h ^= h >>> 16) >>> 0;
+		  };
+		}
+
+		function mulberry32(a) {
+		  return function() {
+			var t = (a += 0x6D2B79F5);
+			t = Math.imul(t ^ (t >>> 15), t | 1);
+			t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+			return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+		  };
+		}
+
+        function getDailySeededId(dateStr, total = 246) {
+			const seed = xmur3(dateStr)();      // turn date string into a 32-bit seed
+			const rand = mulberry32(seed)();    // deterministic pseudo-random [0,1)
+			return Math.floor(rand * total) + 1;
+		}
 
         function updateCountdown() {
             const now = getJapanDate();
@@ -1326,39 +1345,58 @@
                 } catch { state = null; }
             }
 
-            if (state) {
-                guessesLeft = state.guessesLeft;
-                guessHistory = state.guessHistory;
-                gameWon = state.gameWon;
-                secret = data.find(c => c.id == state.secretId) || null;
-                updateGuessesUI();
-                redrawTable();
-                if (guessHistory.length > 0) lockDifficulty();
-            } else {
-                resetGame(dailyId);
-                saveDailyState(dateStr, dailyId);
-            }
+			if (state) {
+			  // Rebuild initialGuesses reliably
+			  if (typeof state.initialGuesses === 'number') {
+				initialGuesses = state.initialGuesses;
+			  } else {
+				// Fallback for previously saved states: derive from history + guessesLeft
+				const used = (state.guessHistory || []).filter(h => h.type === 'guess' || h.type === 'hint').length;
+				initialGuesses = used + state.guessesLeft;
+			  }
+
+			  // Make the dropdown reflect the run’s difficulty and keep it locked
+			  const dd = document.getElementById('daily_difficulty');
+			  dd.value = String(initialGuesses);
+
+			  guessesLeft = state.guessesLeft;
+			  guessHistory = state.guessHistory;
+			  gameWon = state.gameWon;
+			  secret = data.find(c => c.id == state.secretId) || null;
+
+			  updateGuessesUI();
+			  redrawTable();
+			  if (guessHistory.length > 0) lockDifficulty();
+			} else {
+			  resetGame(dailyId);
+			  saveDailyState(dateStr, dailyId);
+			}
+
+
         }
 
         function saveDailyState(dateStr, dailyId) {
-            const state = {
-                date: dateStr,
-                secretId: dailyId,
-                guessesLeft,
-                guessHistory,
-                gameWon
-            };
-            localStorage.setItem("kirafanDailyState", JSON.stringify(state));
-        }
+		  const state = {
+			date: dateStr,
+			secretId: dailyId,
+			guessesLeft,
+			guessHistory,
+			gameWon,
+			initialGuesses, // <- NEW: persist the starting difficulty value
+			difficulty: String(initialGuesses) // optional: also keep it as a string for the dropdown
+		  };
+		  localStorage.setItem("kirafanDailyState", JSON.stringify(state));
+		}
+
 		
 		/* Difficulty lock/unlock */
         function lockDifficulty() {
-            const difficultyDropdown = document.getElementById("difficulty");
+            const difficultyDropdown = document.getElementById("daily_difficulty");
             difficultyDropdown.disabled = true;
             difficultyDropdown.classList.add('bg-gray-200', 'cursor-not-allowed');
         }
         function unlockDifficulty() {
-            const difficultyDropdown = document.getElementById("difficulty");
+            const difficultyDropdown = document.getElementById("daily_difficulty");
             difficultyDropdown.disabled = false;
             difficultyDropdown.classList.remove('bg-gray-200', 'cursor-not-allowed');
         }
@@ -1433,8 +1471,8 @@
              }, 150);
         });
 
-        document.getElementById('difficulty').addEventListener('change', () => {
-            localStorage.setItem('difficulty', document.getElementById('difficulty').value);
+        document.getElementById('daily_difficulty').addEventListener('change', () => {
+            localStorage.setItem('daily_difficulty', document.getElementById('daily_difficulty').value);
             const today = getJapanDate();
             const dateStr = formatJapanDate(today);
             const dailyId = getDailySeededId(dateStr);
@@ -1477,8 +1515,8 @@
         currentLang = savedLang;
         data = savedLang === 'ja' ? initialData_jp : initialData_en;
         updateLanguageUI(savedLang);
-        const savedDiff = localStorage.getItem('difficulty');
-        if (savedDiff) document.getElementById('difficulty').value = savedDiff;
+        const savedDiff = localStorage.getItem('daily_difficulty');
+        if (savedDiff) document.getElementById('daily_difficulty').value = savedDiff;
 		const savedShowSeries = localStorage.getItem('showSeriesInAutocomplete');
 		if (savedShowSeries !== null) {
 			document.getElementById('showSeriesCheckbox').checked = (savedShowSeries === 'true');

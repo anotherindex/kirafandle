@@ -3,7 +3,7 @@
 **Kirafandle** aka **Kirafan-dle** is an online guessing game where you have to use deduction to guess the secret Kirara Fantasia character.    
 Enter your guess and recieve hints about things like Element, Class, Release Year or Limited Cards to narrow down the search.
 
-**きらファンデル**（通称 **きらファンデル**, Kirafandle, Kirafan-dle）は、推理力を駆使して秘密のきららファンタジアキャラクターを当てるオンラインクイズゲームです。
+**きらファンデル**（通称 Kirafandle, Kirafan-dle）は、推理力を駆使して秘密のきららファンタジアキャラクターを当てるオンラインクイズゲームです。
 推測を入力し、要素、クラス、発売年、または限定カードに関するヒントを受け取り、検索範囲を絞り込んでください。
 
 

@@ -3,14 +3,15 @@
 **Kirafandle** aka **Kirafan-dle** is an online guessing game where you have to use deduction to guess the secret Kirara Fantasia character.    
 Enter your guess and recieve hints about things like Element, Class, Release Year or Limited Cards to narrow down the search.
 
-**きらファンドル**（通称 Kirafandle, Kirafan-dle）は、推理力を駆使して秘密のきららファンタジアキャラクターを当てるオンラインクイズゲームです。
+**きらファンドル**（通称 Kirafandle, Kirafan-dle）は、条件から秘密のきららファンタジアのキャラクターを導き出して当てるオンラインクイズゲーム。
 推測を入力し、要素、クラス、発売年、または限定カードに関するヒントを受け取り、検索範囲を絞り込んでください。
 
 
 ### [**> Play Kirafandle! <**](https://anotherindex.github.io/kirafandle/index.html)
 You can also play the [> Daily Kirafandle < ](https://anotherindex.github.io/kirafandle/daily.html).
 
-[![image](https://i.imgur.com/wKz76ki.png)](https://anotherindex.github.io/kirafandle/index.html)
+[![image](https://i.imgur.com/aIFqFPL.png)](https://anotherindex.github.io/kirafandle/index.html)
+*Artwork drawn by Himaharineru [x.com](https://x.com/himahari_neru) / [bsky.app](https://bsky.app/profile/himaharineru.bsky.social)*
 
 ---
 *This is just a random vibe coding (= use of AI) test created over the span of a couple weeks, I didn't code anything of this! Though getting all the data and character info ready took a while of actual work.*
